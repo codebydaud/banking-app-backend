@@ -1,9 +1,18 @@
 package com.codebydaud.training.banking_app.config;
 
+import com.codebydaud.training.banking_app.security.JwtAuthenticationEntryPoint;
+import com.codebydaud.training.banking_app.security.JwtAuthenticationFilter;
+import com.codebydaud.training.banking_app.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
@@ -49,3 +58,4 @@ public class WebSecurityConfig {
             throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
+}

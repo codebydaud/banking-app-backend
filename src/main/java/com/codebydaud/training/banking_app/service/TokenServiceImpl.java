@@ -36,11 +36,17 @@ public class TokenServiceImpl implements TokenService {
     private static final Logger logger = LoggerFactory.getLogger(TokenServiceImpl.class);
 
     public TokenServiceImpl(
+            UserRepository userRepository,
+            TokenRepository tokenRepository,
+            AccountRepository accountRepository,
             @Value("${jwt.secret}") String secret,
             @Value("${jwt.expiration}") long expiration) {
 
         this.secret = secret;
         this.expiration = expiration;
+        this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Override
