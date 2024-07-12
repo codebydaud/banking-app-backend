@@ -1,0 +1,76 @@
+databaseChangeLog:
+  - changeSet:
+      id: schema-account-0.0.1
+      author: banking app team
+      changes:
+        - createTable:
+            tableName: accounts
+            columns:
+              - column:
+                  name: account_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: account_number
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: balance
+                  type: decimal(10,2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: accounts
+            columnNames: account_id
+            constraintName: accounts_pk
+
+        - addForeignKeyConstraint:
+            baseTableName: accounts
+            constraintName: fk_accounts_users
+            referencedTableName: users
+            baseColumnNames: user_id
+            referencedColumnNames: user_id
+            onDelete: CASCADE
+
+  - changeSet:
+      id: data-account-0.0.1
+      author: banking app team
+      changes:
+        - insert:
+            tableName: accounts
+            columns:
+              - column:
+                  name: account_id
+                  value: '1'
+              - column:
+                  name: account_number
+                  value: 'ACC-123456'
+              - column:
+                  name: balance
+                  value: '1000.00'
+              - column:
+                  name: user_id
+                  value: '1'  # Assuming this user_id corresponds to a user in the 'users' table
+        - insert:
+            tableName: accounts
+            columns:
+              - column:
+                  name: account_id
+                  value: '2'
+              - column:
+                  name: account_number
+                  value: 'ACC-789012'
+              - column:
+                  name: balance
+                  value: '500.00'
+              - column:
+                  name: user_id
+                  value: '2'
