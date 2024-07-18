@@ -11,6 +11,7 @@ import com.codebydaud.training.banking_app.util.JsonUtil;
 import com.codebydaud.training.banking_app.util.ValidationUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,8 +19,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import lombok.val;
+import org.springframework.web.servlet.ModelAndView;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
@@ -45,6 +48,17 @@ public class UserServiceImpl implements UserService{
         val user = authenticateUser(loginRequest);
         val token = generateAndSaveToken(user.getAccount().getAccountNumber());
         return ResponseEntity.ok(String.format(ApiMessages.TOKEN_ISSUED_SUCCESS.getMessage(), token));
+    }
+
+    @Override
+    public ModelAndView logout(String token) throws InvalidTokenException {
+        token = token.substring(7);
+        tokenService.validateToken(token);
+        tokenService.invalidateToken(token);
+
+        log.info("User logged out successfully {}", tokenService.getUsernameFromToken(token));
+
+        return new ModelAndView("redirect:/logout");
     }
 
     @Override

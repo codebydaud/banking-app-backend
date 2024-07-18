@@ -5,6 +5,7 @@ import com.codebydaud.training.banking_app.entity.User;
 import com.codebydaud.training.banking_app.exception.InvalidTokenException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.servlet.ModelAndView;
 
 public interface UserService {
 
@@ -21,4 +22,6 @@ public interface UserService {
     public User getUserByAccountNumber(String accountNo);
 
     public User getUserByEmail(String email);
+
+    public ModelAndView logout(String token) throws InvalidTokenException;
 }
