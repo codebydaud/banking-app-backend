@@ -5,7 +5,6 @@ import com.codebydaud.training.banking_app.entity.User;
 
 public interface AccountService {
 
-    Account createAccount(User user);
-//    public boolean isPinCreated(String accountNumber) ;
-//    public void createPin(String accountNumber, String password, String pin) ;
+    public Account createAccount(User user);
+    public void fundTransfer(String sourceAccountNumber, String targetAccountNumber, double amount);
 }

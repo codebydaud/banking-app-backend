@@ -1,11 +1,11 @@
 package com.codebydaud.training.banking_app.dto;
 
 import com.codebydaud.training.banking_app.entity.User;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
+@NoArgsConstructor
+@Data
 public class UserResponse {
 
     private String name;
@@ -14,9 +14,9 @@ public class UserResponse {
     private String phoneNumber;
     private String address;
     private String accountNumber;
-
-    public UserResponse() {
-    }
+    private String ifscCode;
+    private String branch;
+    private String accountType;
 
     public UserResponse(User user) {
         this.name = user.getName();
@@ -25,15 +25,6 @@ public class UserResponse {
         this.phoneNumber = user.getPhoneNumber();
         this.address = user.getAddress();
         this.accountNumber = user.getAccount().getAccountNumber();
-    }
-    @Override
-    public String toString() {
-        return "{ \"name\": \"" + name
-                + "\", \"email\": \"" + email
-                + "\", \"address\": \"" + address
-                + "\", \"countryCode\": \"" + countryCode
-                + "\", \"phoneNumber\": \"" + phoneNumber
-                + "\", \"accountNumber\": \"" + accountNumber + "\" }";
     }
 
 }

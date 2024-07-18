@@ -8,15 +8,11 @@ databaseChangeLog:
             columns:
               - column:
                   name: user_id
-                  type: bigint
+                  type: BIGINT
+                  autoIncrement: true
                   constraints:
-                    nullable: false
-#              - column:
-#                  name: username
-#                  type: varchar(200)
-#                  constraints:
-#                    nullable: false
-#                    unique: true
+                      primaryKey: true
+                      nullable: false
               - column:
                   name: name
                   type: varchar(50)
@@ -48,19 +44,12 @@ databaseChangeLog:
                   type: varchar(200)
                   constraints:
                     nullable: false
-#              - column:
-#                  name: roles
-#                  type: varchar(200)
-#              - column:
-#                  name: created_at
-#                  type: DATETIME
-#              - column:
-#                  name: token
-#                  type: varchar(200)
-        - addPrimaryKey:
-            tableName: users
-            columnNames: user_id
-            constraintName: users_pk
+              - column:
+                  name: role
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+
   - changeSet:
       id: data-user-0.0.1
       author: banking app team
@@ -69,11 +58,29 @@ databaseChangeLog:
             tableName: users
             columns:
               - column:
-                  name: user_id
-                  value: '1'
-#              - column:
-#                  name: username
-#                  value: ACC-1
+                  name: name
+                  value: Mansoor
+              - column:
+                  name: email
+                  value: MansoorHaider@gmail.com
+              - column:
+                  name: country_code
+                  value: '+92'
+              - column:
+                  name: phone_number
+                  value: '3497777777'
+              - column:
+                  name: address
+                  value: House No, 15
+              - column:
+                  name: password
+                  value: '$2a$10$.ptbRKSszrCfPMJkfXMWNOloe62.b3XCTxIVPmXV8ksR9OChFi3Du'
+              - column:
+                  name: role
+                  value: admin
+        - insert:
+            tableName: users
+            columns:
               - column:
                   name: name
                   value: Daud
@@ -85,37 +92,25 @@ databaseChangeLog:
                   value: '+92'
               - column:
                   name: phone_number
-                  value: '123456789'
+                  value: '3496016604'
               - column:
                   name: address
                   value: House No, 30
               - column:
                   name: password
-                  value: '$2a$10$.ptbRKSszrCfPMJkfXMWNOloe62.b3XCTxIVPmXV8ksR9OChFi3Du'
-#              - column:
-#                  name: roles
-#                  value: customer
-#              - column:
-#                  name: created_at
-#                  value: '2000-01-01T12:00:00'
-#              - column:
-#                  name: token
-#                  value: '$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+                  value: '{bcrypt}$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+              - column:
+                  name: role
+                  value: customer
         - insert:
             tableName: users
             columns:
-              - column:
-                  name: user_id
-                  value: '2'
-#              - column:
-#                  name: username
-#                  value: ACC-2
               - column:
                   name: name
                   value: Ahmad
               - column:
                   name: email
-                  value: dahmad@gmail.com
+                  value: ahmad@gmail.com
               - column:
                   name: country_code
                   value: '+92'
@@ -127,25 +122,13 @@ databaseChangeLog:
                   value: House No, 31
               - column:
                   name: password
-                  value: '$2a$10$.ptbRKSszrCfPMJkfXMWNOloe62.b3XCTxIVPmXV8ksR9OChFi3Du'
-#              - column:
-#                  name: roles
-#                  value: customer
-#              - column:
-#                  name: created_at
-#                  value: '2000-01-01T12:00:00'
-#              - column:
-#                  name: token
-#                  value: '$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPWesdfsfsdf'
+                  value: '{bcrypt}$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+              - column:
+                  name: role
+                  value: customer
         - insert:
             tableName: users
             columns:
-              - column:
-                  name: user_id
-                  value: '3'
-#              - column:
-#                  name: username
-#                  value: ACC-3
               - column:
                   name: name
                   value: Ali
@@ -157,19 +140,13 @@ databaseChangeLog:
                   value: '+92'
               - column:
                   name: phone_number
-                  value: '123456789'
+                  value: '3496666666'
               - column:
                   name: address
                   value: House No, 32
               - column:
                   name: password
-                  value: '$2a$10$.ptbRKSszrCfPMJkfXMWNOloe62.b3XCTxIVPmXV8ksR9OChFi3Du'
-#              - column:
-#                  name: roles
-#                  value: customer
-#              - column:
-#                  name: created_at
-#                  value: '2000-01-01T12:00:00'
-#              - column:
-#                  name: token
-#                  value: '$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPWfFGHRTGHRTG'
+                  value: '{bcrypt}$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+              - column:
+                  name: role
+                  value: customer

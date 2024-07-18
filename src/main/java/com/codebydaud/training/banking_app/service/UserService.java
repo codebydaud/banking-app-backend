@@ -1,23 +1,24 @@
 package com.codebydaud.training.banking_app.service;
 
+import com.codebydaud.training.banking_app.dto.LoginRequest;
 import com.codebydaud.training.banking_app.entity.User;
-
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
+import com.codebydaud.training.banking_app.exception.InvalidTokenException;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
-    public User registerUser(User user);
+    public ResponseEntity<String> registerUser(User user);
+
+
+    public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
+            throws InvalidTokenException;
 
     public User saveUser(User user);
 
-    public boolean doesEmailExist(String email);
+    public User getUserByIdentifier(String identifier);
 
-    public boolean doesPhoneNumberExist(String phoneNumber);
+    public User getUserByAccountNumber(String accountNo);
 
-    public boolean doesAccountExist(String accountNumber);
-
-    public Optional<User> getUserByAccountNumber(String accountNumber);
-
-    public Optional<User> getUserByEmail(String email);
+    public User getUserByEmail(String email);
 }

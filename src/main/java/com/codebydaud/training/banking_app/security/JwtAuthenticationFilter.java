@@ -8,10 +8,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -19,23 +19,31 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+
 /**
- * JwtAuthenticationFilter is responsible for filtering incoming requests to
- * authenticate JWT tokens. It extracts the JWT token from the Authorization
- * header, validates it, and sets the authentication in the
- * SecurityContextHolder if the token is valid. If the token is invalid or
- * expired, appropriate log messages are generated. This filter is used for
- * securing endpoints that require JWT authentication.
+ * JWT Authentication Filter
+ *
+ * This filter intercepts incoming requests to authenticate users based on JWT
+ * tokens. It extends OncePerRequestFilter to ensure it's executed once per
+ * request.
  */
 @Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+    private final TokenService tokenService;
 
-    @Autowired
-    private TokenService tokenService;
-
+    /**
+     * Performs the filtering for each request
+     *
+     * @param request     The HTTP request
+     * @param response    The HTTP response
+     * @param filterChain The filter chain
+     *
+     * @throws ServletException If a servlet-specific error occurs
+     * @throws IOException      If an I/O error occurs
+     */
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
@@ -50,7 +58,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String requestTokenHeader = request.getHeader("Authorization");
+        val requestTokenHeader = request.getHeader("Authorization");
 
         if (requestTokenHeader == null) {
             filterChain.doFilter(request, response);
@@ -64,7 +72,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = requestTokenHeader.substring(7);
+        val token = requestTokenHeader.substring(7);
         String username = null;
 
         try {
@@ -77,8 +85,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+        val userDetails = userDetailsService.loadUserByUsername(username);
+        val authToken = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
 
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -86,4 +94,5 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
 }

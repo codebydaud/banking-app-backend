@@ -1,6 +1,5 @@
 package com.codebydaud.training.banking_app.service;
 
-
 import com.codebydaud.training.banking_app.exception.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +9,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 public interface TokenService extends UserDetailsService {
+
 
     public String generateToken(UserDetails userDetails);
 
@@ -27,4 +27,5 @@ public interface TokenService extends UserDetailsService {
     public void validateToken(String token) throws InvalidTokenException;
 
     public void invalidateToken(String token);
+
 }

@@ -9,7 +9,9 @@ databaseChangeLog:
               - column:
                   name: account_id
                   type: bigint
+                  autoIncrement: true
                   constraints:
+                    primaryKey: true
                     nullable: false
               - column:
                   name: account_number
@@ -27,10 +29,11 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-        - addPrimaryKey:
-            tableName: accounts
-            columnNames: account_id
-            constraintName: accounts_pk
+              - column:
+                  name: created_at
+                  type: DATETIME
+                  constraints:
+                    nullable: false
 
         - addForeignKeyConstraint:
             baseTableName: accounts
@@ -48,9 +51,6 @@ databaseChangeLog:
             tableName: accounts
             columns:
               - column:
-                  name: account_id
-                  value: '1'
-              - column:
                   name: account_number
                   value: 'ACC-123456'
               - column:
@@ -58,13 +58,13 @@ databaseChangeLog:
                   value: '1000.00'
               - column:
                   name: user_id
-                  value: '1'  # Assuming this user_id corresponds to a user in the 'users' table
+                  value: '2'  # Assuming this user_id corresponds to a user in the 'users' table
+              - column:
+                  name: created_at
+                  value: '2000-01-01T12:00:00'
         - insert:
             tableName: accounts
             columns:
-              - column:
-                  name: account_id
-                  value: '2'
               - column:
                   name: account_number
                   value: 'ACC-789012'
@@ -73,4 +73,22 @@ databaseChangeLog:
                   value: '500.00'
               - column:
                   name: user_id
-                  value: '2'
+                  value: '3'
+              - column:
+                  name: created_at
+                  value: '2005-01-01T12:00:00'
+        - insert:
+            tableName: accounts
+            columns:
+              - column:
+                  name: account_number
+                  value: 'ACC-78902424'
+              - column:
+                  name: balance
+                  value: '50000.00'
+              - column:
+                  name: user_id
+                  value: '4'
+              - column:
+                  name: created_at
+                  value: '2008-01-01T12:00:00'

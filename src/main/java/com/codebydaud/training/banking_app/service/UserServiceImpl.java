@@ -1,53 +1,50 @@
 package com.codebydaud.training.banking_app.service;
 
-import com.codebydaud.training.banking_app.entity.Account;
+import com.codebydaud.training.banking_app.dto.LoginRequest;
+import com.codebydaud.training.banking_app.dto.UserResponse;
 import com.codebydaud.training.banking_app.entity.User;
+import com.codebydaud.training.banking_app.exception.InvalidTokenException;
 import com.codebydaud.training.banking_app.exception.UserInvalidException;
 import com.codebydaud.training.banking_app.repository.UserRepository;
+import com.codebydaud.training.banking_app.util.ApiMessages;
+import com.codebydaud.training.banking_app.util.JsonUtil;
 import com.codebydaud.training.banking_app.util.ValidationUtil;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import lombok.val;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final AccountService accountService;
+    private final ValidationUtil validationUtil;
+    private final UserDetailsService userDetailsService;
+    private final TokenService tokenService;
+    private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(
-            UserRepository userRepository,
-            AccountService accountService,
-            PasswordEncoder passwordEncoder) {
-
-        this.userRepository = userRepository;
-        this.accountService = accountService;
-        this.passwordEncoder = passwordEncoder;
+    @Override
+    public ResponseEntity<String> registerUser(User user) {
+        validationUtil.validateNewUser(user);
+        encodePassword(user);
+        user.setRole("customer");
+        val savedUser = saveUserWithAccount(user);
+        return ResponseEntity.ok(JsonUtil.toJson(new UserResponse(savedUser)));
     }
 
     @Override
-    public User registerUser(User user) {
-        ValidationUtil.validateUserDetails(user);
-
-        if (doesEmailExist(user.getEmail())) {
-            throw new UserInvalidException("Email Already Exists");
-        }
-
-        if (doesPhoneNumberExist(user.getPhoneNumber())) {
-            throw new UserInvalidException("Phone Number Already Exists");
-        }
-
-        ValidationUtil.validateUserDetails(user);
-
-        user.setName(user.getName());
-        user.setCountryCode(user.getCountryCode().toUpperCase());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User savedUser = saveUser(user);
-
-        Account account = accountService.createAccount(savedUser);
-        savedUser.setAccount(account);
-        return saveUser(savedUser);
+    public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
+            throws InvalidTokenException {
+        val user = authenticateUser(loginRequest);
+        val token = generateAndSaveToken(user.getAccount().getAccountNumber());
+        return ResponseEntity.ok(String.format(ApiMessages.TOKEN_ISSUED_SUCCESS.getMessage(), token));
     }
 
     @Override
@@ -55,31 +52,58 @@ public class UserServiceImpl implements UserService{
         return userRepository.save(user);
     }
 
+    private void encodePassword(User user) {
+        user.setCountryCode(user.getCountryCode().toUpperCase());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }
+    private User saveUserWithAccount(User user) {
+        val savedUser = saveUser(user);
+        savedUser.setAccount(accountService.createAccount(savedUser));
+        return saveUser(savedUser);
+    }
 
-    @Override
-    public boolean doesEmailExist(String email) {
-        return userRepository.findByEmail(email).isPresent();
+    private User authenticateUser(LoginRequest loginRequest) {
+        val user = getUserByIdentifier(loginRequest.identifier());
+        val accountNumber = user.getAccount().getAccountNumber();
+        authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(accountNumber, loginRequest.password()));
+        return user;
     }
 
     @Override
-    public boolean doesPhoneNumberExist(String phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber).isPresent();
+    public User getUserByIdentifier(String identifier) {
+        User user = null;
+
+        if (validationUtil.doesEmailExist(identifier)) {
+            user = getUserByEmail(identifier);
+        } else if (validationUtil.doesAccountExist(identifier)) {
+            user = getUserByAccountNumber(identifier);
+        } else {
+            throw new UserInvalidException(
+                    String.format(ApiMessages.USER_NOT_FOUND_BY_IDENTIFIER.getMessage(), identifier));
+        }
+
+        return user;
     }
 
     @Override
-    public boolean doesAccountExist(String accountNumber) {
-        return userRepository.findByAccountAccountNumber(accountNumber).isPresent();
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new UserInvalidException(String.format(ApiMessages.USER_NOT_FOUND_BY_EMAIL.getMessage(), email)));
     }
 
     @Override
-    public Optional<User> getUserByAccountNumber(String accountNo) {
-        return userRepository.findByAccountAccountNumber(accountNo);
+    public User getUserByAccountNumber(String accountNo) {
+        return userRepository.findByAccountAccountNumber(accountNo).orElseThrow(
+                () -> new UserInvalidException(
+                        String.format(ApiMessages.USER_NOT_FOUND_BY_ACCOUNT.getMessage(), accountNo)));
     }
 
-    @Override
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    private String generateAndSaveToken(String accountNumber) throws InvalidTokenException {
+        val userDetails = userDetailsService.loadUserByUsername(accountNumber);
+        val token = tokenService.generateToken(userDetails);
+        tokenService.saveToken(token);
+        return token;
     }
-
 
 }

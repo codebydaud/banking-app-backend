@@ -1,4 +1,6 @@
 spring:
+  main:
+    allow-circular-references: true
   h2:
     console:
       enabled: true
@@ -15,6 +17,22 @@ spring:
       name: test
       password: test
       roles: CUSTOMER,ADMIN
+jwt:
+  secret: '4433rjkl2241@!#23l32j14l3kj12l5j14kl2'
+  expiration: 8640000  # Token expiration time in milliseconds (e.g., 24 hours)
+
 api:
   security:
-    ignored: /api/users/register,/api/banking-app,/api/banking-app/register,/api/banking-app/login,/api/banking-app/users,/swagger-ui/**,/v3/api-docs,/v3/api-docs/**,/index.html,h2-console
+    ignored: /banking-app/register,
+            /banking-app/login,
+            /h2-console,
+            /h2-console/**,
+            /api/auth/password-reset/verify-otp,
+            /api/auth/password-reset/send-otp,
+            /api/auth/password-reset,
+            /api/users/generate-otp,
+            /api/users/verify-otp,
+            swagger-ui.html,
+            /v3/api-docs/**,
+            /swagger-ui/**,
+            /actuator/**

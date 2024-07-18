@@ -1,125 +1,102 @@
 package com.codebydaud.training.banking_app.service;
 
 import com.codebydaud.training.banking_app.entity.Account;
+import com.codebydaud.training.banking_app.entity.Transaction;
 import com.codebydaud.training.banking_app.entity.User;
+import com.codebydaud.training.banking_app.exception.FundTransferException;
+import com.codebydaud.training.banking_app.exception.InsufficientBalanceException;
+import com.codebydaud.training.banking_app.exception.InvalidAmountException;
+import com.codebydaud.training.banking_app.exception.NotFoundException;
 import com.codebydaud.training.banking_app.repository.AccountRepository;
+import com.codebydaud.training.banking_app.repository.TransactionRepository;
+import com.codebydaud.training.banking_app.util.ApiMessages;
+import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
     final private AccountRepository accountRepository;
-//    final private PasswordEncoder passwordEncoder;
+    final private TransactionRepository transactionRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
-    AccountServiceImpl(AccountRepository accountRepository, PasswordEncoder passwordEncoder) {
-        this.accountRepository = accountRepository;
-//        this.passwordEncoder = passwordEncoder;
-    }
     @Override
     public Account createAccount(User user) {
         Account account = new Account();
         account.setAccountNumber(generateUniqueAccountNumber());
-        account.setBalance(0.0);
+        account.setBalance(1000); //default
+        account.setCreatedAt(LocalDateTime.now());
         account.setUser(user);
         return accountRepository.save(account);
     }
-
-//    @Override
-//    public boolean isPinCreated(String accountNumber) {
-//        Account account = accountRepository.findByAccountNumber(accountNumber);
-//        if (account == null) {
-//            throw new ChangeSetPersister.NotFoundException("Account not found");
-//        }
-//
-//        return account.getPin() != null;
-//    }
 
     private String generateUniqueAccountNumber() {
         String accountNumber;
         do {
             // Generate a UUID as the account number
-            accountNumber = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 6);
+            accountNumber = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8);
         } while (accountRepository.findByAccountNumber(accountNumber) != null);
 
         return accountNumber;
     }
 
-//    private void validatePin(String accountNumber, String pin) {
-//        Account account = accountRepository.findByAccountNumber(accountNumber);
-//        if (account == null) {
-//            throw new ChangeSetPersister.NotFoundException("Account not found");
-//        }
-//
-//        if (account.getPin() == null) {
-//            throw new UnauthorizedException("PIN not created");
-//        }
-//
-//        if (pin == null || pin.isEmpty()) {
-//            throw new UnauthorizedException("PIN cannot be empty");
-//        }
-//
-//        if (!passwordEncoder.matches(pin, account.getPin())) {
-//            throw new UnauthorizedException("Invalid PIN");
-//        }
-//    }
-//
-//    private void validatePassword(String accountNumber, String password) {
-//        Account account = accountRepository.findByAccountNumber(accountNumber);
-//        if (account == null) {
-//            throw new ChangeSetPersister.NotFoundException("Account not found");
-//        }
-//
-//        if (password == null || password.isEmpty()) {
-//            throw new UnauthorizedException("Password cannot be empty");
-//        }
-//
-//        if (!passwordEncoder.matches(password, account.getUser().getPassword())) {
-//            throw new UnauthorizedException("Invalid password");
-//        }
-//    }
-//
-//    @Override
-//    public void createPin(String accountNumber, String password, String pin) {
-//        validatePassword(accountNumber, password);
-//
-//        Account account = accountRepository.findByAccountNumber(accountNumber);
-//        if (account.getPin() != null) {
-//            throw new UnauthorizedException("PIN already created");
-//        }
-//
-//        if (pin == null || pin.isEmpty()) {
-//            throw new InvalidPinException("PIN cannot be empty");
-//        }
-//
-//        if (!pin.matches("[0-9]{4}")) {
-//            throw new InvalidPinException("PIN must be 4 digits");
-//        }
-//
-//        account.setPin(passwordEncoder.encode(pin));
-//        accountRepository.save(account);
-//    }
-//
-//
-//    private void validateAmount(double amount) {
-//        if (amount <= 0) {
-//            throw new InvalidAmountException("Amount must be greater than 0");
-//        }
-//
-//        if (amount % 100 != 0) {
-//            throw new InvalidAmountException("Amount must be in multiples of 100");
-//        }
-//
-//        if (amount > 100000) {
-//            throw new InvalidAmountException("Amount cannot be greater than 100,000");
-//        }
-//    }
+    @Override
+    public void fundTransfer(String sourceAccountNumber, String targetAccountNumber, double amount) {
+        validateAmount(amount);
+
+        if (sourceAccountNumber.equals(targetAccountNumber)) {
+            throw new FundTransferException(ApiMessages.CASH_TRANSFER_SAME_ACCOUNT_ERROR.getMessage());
+        }
+
+        val targetAccount = accountRepository.findByAccountNumber(targetAccountNumber);
+        if (targetAccount == null) {
+            throw new NotFoundException(ApiMessages.ACCOUNT_NOT_FOUND.getMessage());
+        }
+
+        val sourceAccount = accountRepository.findByAccountNumber(sourceAccountNumber);
+        val sourceBalance = sourceAccount.getBalance();
+        if (sourceBalance < amount) {
+            throw new InsufficientBalanceException(ApiMessages.BALANCE_INSUFFICIENT_ERROR.getMessage());
+        }
+
+        val newSourceBalance = sourceBalance - amount;
+        sourceAccount.setBalance(newSourceBalance);
+        accountRepository.save(sourceAccount);
+
+        val targetBalance = targetAccount.getBalance();
+        val newTargetBalance = targetBalance + amount;
+        targetAccount.setBalance(newTargetBalance);
+        accountRepository.save(targetAccount);
+
+        val transaction = new Transaction();
+        transaction.setAmount(amount);
+        transaction.setTransactionType("CASH_TRANSFER");
+        transaction.setTransactionDate(new Date());
+        transaction.setSourceAccount(sourceAccount);
+        transaction.setTargetAccount(targetAccount);
+        transactionRepository.save(transaction);
+    }
+
+    private void validateAmount(double amount) {
+        if (amount <= 0) {
+            throw new InvalidAmountException(ApiMessages.AMOUNT_NEGATIVE_ERROR.getMessage());
+        }
+
+        if (amount % 100 != 0) {
+            throw new InvalidAmountException(ApiMessages.AMOUNT_NOT_MULTIPLE_OF_100_ERROR.getMessage());
+        }
+
+        if (amount > 100000) {
+            throw new InvalidAmountException(ApiMessages.AMOUNT_EXCEED_100_000_ERROR.getMessage());
+        }
+    }
 
 }
