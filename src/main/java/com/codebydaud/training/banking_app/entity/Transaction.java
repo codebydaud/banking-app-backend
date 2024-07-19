@@ -22,6 +22,9 @@ public class Transaction {
     @NotEmpty
     private Date transactionDate;
 
+    @NotEmpty
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "source_account_id")
     private Account sourceAccount;

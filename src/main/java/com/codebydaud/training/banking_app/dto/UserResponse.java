@@ -14,9 +14,6 @@ public class UserResponse {
     private String phoneNumber;
     private String address;
     private String accountNumber;
-    private String ifscCode;
-    private String branch;
-    private String accountType;
 
     public UserResponse(User user) {
         this.name = user.getName();

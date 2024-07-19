@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -48,8 +49,9 @@ public class AccountServiceImpl implements AccountService {
         return accountNumber;
     }
 
+
     @Override
-    public void fundTransfer(String sourceAccountNumber, String targetAccountNumber, double amount) {
+    public void fundTransfer(String sourceAccountNumber, String targetAccountNumber, String description, double amount) {
         validateAmount(amount);
 
         if (sourceAccountNumber.equals(targetAccountNumber)) {
@@ -82,6 +84,7 @@ public class AccountServiceImpl implements AccountService {
         transaction.setTransactionDate(new Date());
         transaction.setSourceAccount(sourceAccount);
         transaction.setTargetAccount(targetAccount);
+        transaction.setDescription(description);
         transactionRepository.save(transaction);
     }
 

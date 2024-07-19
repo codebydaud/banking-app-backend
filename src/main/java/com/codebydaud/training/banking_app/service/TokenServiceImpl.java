@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Date;
 import java.util.function.Function;
@@ -55,6 +56,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     private String doGenerateToken(UserDetails userDetails, Date expiry) {
+
         return Jwts.builder().setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(expiry)
@@ -67,7 +69,9 @@ public class TokenServiceImpl implements TokenService {
                 .orElseThrow(() -> new UsernameNotFoundException(
                         String.format(ApiMessages.USER_NOT_FOUND_BY_ACCOUNT.getMessage(), accountNumber)));
 
-        return withUsername(accountNumber).password(user.getPassword()).build();
+//        return withUsername(accountNumber).password(user.getPassword()).build();
+        return withUsername(accountNumber).password(user.getPassword()).authorities(user.getRole()).build();
+
     }
 
     @Override

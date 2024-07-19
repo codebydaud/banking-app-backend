@@ -24,6 +24,7 @@ public class AccountController {
         accountService.fundTransfer(
                 LoggedinUser.getAccountNumber(),
                 fundTransferRequest.targetAccountNumber(),
+                fundTransferRequest.description(),
                 fundTransferRequest.amount());
 
         return ResponseEntity.ok(ApiMessages.CASH_TRANSFER_SUCCESS.getMessage());
