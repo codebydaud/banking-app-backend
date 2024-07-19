@@ -1,12 +1,15 @@
 package com.codebydaud.training.banking_app.service;
 
+import com.codebydaud.training.banking_app.entity.User;
 import com.codebydaud.training.banking_app.exception.InvalidTokenException;
 import com.codebydaud.training.banking_app.entity.Token;
 import com.codebydaud.training.banking_app.repository.AccountRepository;
 import com.codebydaud.training.banking_app.repository.TokenRepository;
 import com.codebydaud.training.banking_app.repository.UserRepository;
 import com.codebydaud.training.banking_app.util.ApiMessages;
+import com.codebydaud.training.banking_app.util.ValidationUtil;
 import io.jsonwebtoken.*;
+import jakarta.mail.internet.InternetAddress;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,7 @@ import static org.springframework.security.core.userdetails.User.withUsername;
 @RequiredArgsConstructor
 public class TokenServiceImpl implements TokenService {
 
+    private final ValidationUtil validationUtil;
     @Value("${jwt.secret}")
     private String secret;
 
@@ -64,13 +68,21 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String accountNumber) throws UsernameNotFoundException {
-        val user = userRepository.findByAccountAccountNumber(accountNumber)
-                .orElseThrow(() -> new UsernameNotFoundException(
-                        String.format(ApiMessages.USER_NOT_FOUND_BY_ACCOUNT.getMessage(), accountNumber)));
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user;
+        if (username.contains("@")) {
+            user = userRepository.findByEmail(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(
+                            String.format(ApiMessages.USER_NOT_FOUND_BY_EMAIL.getMessage(), username)));
+        } else {
+            user = userRepository.findByAccountAccountNumber(username)
+                    .orElseThrow(() -> new UsernameNotFoundException(
+                            String.format(ApiMessages.USER_NOT_FOUND_BY_ACCOUNT.getMessage(), username)));
+        }
 
 //        return withUsername(accountNumber).password(user.getPassword()).build();
-        return withUsername(accountNumber).password(user.getPassword()).authorities(user.getRole()).build();
+        return withUsername(username).password(user.getPassword()).authorities(user.getRole()).build();
 
     }
 
@@ -89,7 +101,12 @@ public class TokenServiceImpl implements TokenService {
         val account = accountRepository.findByAccountNumber(
                 getUsernameFromToken(token));
 
-        log.info("Saving token for account: " + account.getAccountNumber());
+        if (account == null) {
+            log.info("Saving token for admin ");
+        } else {
+            log.info("Saving token for account: " + account.getAccountNumber());
+        }
+
 
         val tokenObj = new Token(
                 token,

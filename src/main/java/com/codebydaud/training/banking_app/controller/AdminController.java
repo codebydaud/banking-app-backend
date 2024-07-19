@@ -1,31 +1,40 @@
 package com.codebydaud.training.banking_app.controller;
 
+import com.codebydaud.training.banking_app.dto.LoginRequest;
 import com.codebydaud.training.banking_app.entity.Account;
+import com.codebydaud.training.banking_app.exception.InvalidTokenException;
 import com.codebydaud.training.banking_app.service.AccountService;
 import com.codebydaud.training.banking_app.service.AdminService;
 import com.codebydaud.training.banking_app.util.JsonUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/admin/accounts")
+@RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class AdminController {
 
     private final AdminService adminService;
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
+
+
+    @PreAuthorize("hasAuthority('admin')")
+    @GetMapping("/accounts")
     public ResponseEntity<String> getAllAccounts() {
         val accountList=adminService.getAllAccounts();
         return ResponseEntity.ok(JsonUtil.toJson(accountList));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request)
+            throws InvalidTokenException {
+        return adminService.login(loginRequest, request);
     }
 
 //    @GetMapping("/{accountId}")

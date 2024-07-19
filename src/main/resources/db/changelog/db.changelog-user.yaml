@@ -62,7 +62,7 @@ databaseChangeLog:
                   value: Mansoor
               - column:
                   name: email
-                  value: MansoorHaider@gmail.com
+                  value: mansoorhaider@gmail.com
               - column:
                   name: country_code
                   value: '+92'
@@ -98,7 +98,7 @@ databaseChangeLog:
                   value: House No, 30
               - column:
                   name: password
-                  value: '{bcrypt}$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+                  value: '$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
               - column:
                   name: role
                   value: customer
@@ -122,7 +122,7 @@ databaseChangeLog:
                   value: House No, 31
               - column:
                   name: password
-                  value: '{bcrypt}$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+                  value: '$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
               - column:
                   name: role
                   value: customer
@@ -146,7 +146,7 @@ databaseChangeLog:
                   value: House No, 32
               - column:
                   name: password
-                  value: '{bcrypt}$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+                  value: '$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
               - column:
                   name: role
                   value: customer
