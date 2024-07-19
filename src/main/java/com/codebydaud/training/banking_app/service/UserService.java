@@ -12,7 +12,7 @@ public interface UserService {
     public ResponseEntity<String> registerUser(User user);
 
 
-    public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
+    public ResponseEntity<String> login(LoginRequest loginRequest, String requestMaker, HttpServletRequest request)
             throws InvalidTokenException;
 
     public User saveUser(User user);

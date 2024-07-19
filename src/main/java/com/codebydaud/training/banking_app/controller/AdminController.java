@@ -24,7 +24,6 @@ public class AdminController {
 
     private final AdminService adminService;
 
-
     @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/accounts")
     public ResponseEntity<String> getAllAccounts() {
@@ -35,9 +34,11 @@ public class AdminController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request)
             throws InvalidTokenException {
-        return adminService.login(loginRequest, request);
+        String requestMaker = "admin";
+        return adminService.login(loginRequest, requestMaker, request);
     }
 
+    @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/logout")
     public ModelAndView logout(@RequestHeader("Authorization") String token)
             throws InvalidTokenException {

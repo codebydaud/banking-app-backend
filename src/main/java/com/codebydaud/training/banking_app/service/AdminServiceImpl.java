@@ -31,18 +31,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 
-    private final UserRepository userRepository;
-    private final ValidationUtil validationUtil;
-    private final UserDetailsService userDetailsService;
-    private final TokenService tokenService;
-    private final AuthenticationManager authenticationManager;
+
     private final AccountRepository accountRepository;
     private final UserService userService;
 
     @Override
-    public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
+    public ResponseEntity<String> login(LoginRequest loginRequest, String requestMaker, HttpServletRequest request)
             throws InvalidTokenException {
-        return userService.login(loginRequest, request);
+        return userService.login(loginRequest, requestMaker, request);
     }
 
     public List<AccountResponse> getAllAccounts() {

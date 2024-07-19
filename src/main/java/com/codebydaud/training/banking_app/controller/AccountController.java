@@ -9,6 +9,7 @@ import com.codebydaud.training.banking_app.util.LoggedinUser;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,7 @@ public class AccountController {
     private final AccountService accountService;
     private final TransactionService transactionService;
 
+    @PreAuthorize("hasAuthority('customer')")
     @PostMapping("/fund-transfer")
     public ResponseEntity<String> fundTransfer(@RequestBody FundTransferRequest fundTransferRequest) {
         accountService.fundTransfer(
@@ -30,6 +32,7 @@ public class AccountController {
         return ResponseEntity.ok(ApiMessages.CASH_TRANSFER_SUCCESS.getMessage());
     }
 
+    @PreAuthorize("hasAuthority('customer')")
     @GetMapping("/transactions")
     public ResponseEntity<String> getAllTransactionsByAccountNumber() {
         val transactions = transactionService

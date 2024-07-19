@@ -62,7 +62,7 @@ databaseChangeLog:
                   value: Mansoor
               - column:
                   name: email
-                  value: mansoorhaider@gmail.com
+                  value: admin@gmail.com
               - column:
                   name: country_code
                   value: '+92'

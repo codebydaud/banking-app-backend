@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -34,9 +35,11 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request)
             throws InvalidTokenException {
-        return userService.login(loginRequest, request);
+        String requestMaker = "customer";
+        return userService.login(loginRequest, requestMaker, request);
     }
 
+    @PreAuthorize("hasAuthority('customer')")
     @GetMapping("/logout")
     public ModelAndView logout(@RequestHeader("Authorization") String token)
             throws InvalidTokenException {
