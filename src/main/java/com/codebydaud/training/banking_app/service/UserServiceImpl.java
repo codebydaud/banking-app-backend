@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AccountService accountService;
     private final ValidationUtil validationUtil;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService{
     public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
             throws InvalidTokenException {
         val user = authenticateUser(loginRequest);
-        val token = generateAndSaveToken(user.getAccount().getAccountNumber());
+        val token = generateAndSaveToken(user.getAccount() == null ? user.getEmail() : user.getAccount().getAccountNumber());
         return ResponseEntity.ok(String.format(ApiMessages.TOKEN_ISSUED_SUCCESS.getMessage(), token));
     }
 
@@ -70,6 +70,7 @@ public class UserServiceImpl implements UserService{
         user.setCountryCode(user.getCountryCode().toUpperCase());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
+
     private User saveUserWithAccount(User user) {
         val savedUser = saveUser(user);
         savedUser.setAccount(accountService.createAccount(savedUser));
@@ -78,9 +79,8 @@ public class UserServiceImpl implements UserService{
 
     private User authenticateUser(LoginRequest loginRequest) {
         val user = getUserByIdentifier(loginRequest.identifier());
-        val accountNumber = user.getAccount().getAccountNumber();
         authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(accountNumber, loginRequest.password()));
+                .authenticate(new UsernamePasswordAuthenticationToken(user.getAccount() == null ? loginRequest.identifier() : user.getAccount().getAccountNumber(), loginRequest.password()));
         return user;
     }
 
@@ -113,8 +113,8 @@ public class UserServiceImpl implements UserService{
                         String.format(ApiMessages.USER_NOT_FOUND_BY_ACCOUNT.getMessage(), accountNo)));
     }
 
-    private String generateAndSaveToken(String accountNumber) throws InvalidTokenException {
-        val userDetails = userDetailsService.loadUserByUsername(accountNumber);
+    private String generateAndSaveToken(String username) throws InvalidTokenException {
+        val userDetails = userDetailsService.loadUserByUsername(username);
         val token = tokenService.generateToken(userDetails);
         tokenService.saveToken(token);
         return token;

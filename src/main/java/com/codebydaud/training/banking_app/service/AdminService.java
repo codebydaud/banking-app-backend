@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -21,8 +22,6 @@ public interface AdminService {
 
     public List<AccountResponse> getAllAccounts();
 
-    public User getUserByIdentifier(String identifier);
-
-    public User getUserByEmail(String email);
+    public ModelAndView logout(String token) throws InvalidTokenException;
 
 }

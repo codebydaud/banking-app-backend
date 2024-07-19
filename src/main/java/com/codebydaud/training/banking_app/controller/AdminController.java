@@ -7,11 +7,13 @@ import com.codebydaud.training.banking_app.service.AccountService;
 import com.codebydaud.training.banking_app.service.AdminService;
 import com.codebydaud.training.banking_app.util.JsonUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -21,7 +23,6 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
-
 
 
     @PreAuthorize("hasAuthority('admin')")
@@ -35,6 +36,12 @@ public class AdminController {
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request)
             throws InvalidTokenException {
         return adminService.login(loginRequest, request);
+    }
+
+    @GetMapping("/logout")
+    public ModelAndView logout(@RequestHeader("Authorization") String token)
+            throws InvalidTokenException {
+        return adminService.logout(token);
     }
 
 //    @GetMapping("/{accountId}")

@@ -21,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,13 +37,12 @@ public class AdminServiceImpl implements AdminService {
     private final TokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final AccountRepository accountRepository;
+    private final UserService userService;
 
     @Override
     public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
             throws InvalidTokenException {
-        val user = authenticateUser(loginRequest);
-        val token = generateAndSaveToken(user.getEmail());
-        return ResponseEntity.ok(String.format(ApiMessages.TOKEN_ISSUED_SUCCESS.getMessage(), token));
+        return userService.login(loginRequest, request);
     }
 
     public List<AccountResponse> getAllAccounts() {
@@ -52,37 +52,8 @@ public class AdminServiceImpl implements AdminService {
                 .collect(Collectors.toList());
     }
 
-    private User authenticateUser(LoginRequest loginRequest) {
-        val user = getUserByIdentifier(loginRequest.identifier());
-        authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.identifier(), loginRequest.password()));
-        return user;
-    }
-
     @Override
-    public User getUserByIdentifier(String identifier) {
-        User user = null;
-        if (validationUtil.doesEmailExist(identifier)) {
-            user = getUserByEmail(identifier);
-        } else {
-            throw new UserInvalidException(
-                    String.format(ApiMessages.USER_NOT_FOUND_BY_IDENTIFIER.getMessage(), identifier));
-        }
-        return user;
+    public ModelAndView logout(String token) throws InvalidTokenException {
+        return userService.logout(token);
     }
-
-    @Override
-    public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new UserInvalidException(String.format(ApiMessages.USER_NOT_FOUND_BY_EMAIL.getMessage(), email)));
-    }
-
-
-    private String generateAndSaveToken(String email) throws InvalidTokenException {
-        val userDetails = userDetailsService.loadUserByUsername(email);
-        val token = tokenService.generateToken(userDetails);
-        tokenService.saveToken(token);
-        return token;
-    }
-
 }

@@ -40,7 +40,6 @@ public class UserController {
     @GetMapping("/logout")
     public ModelAndView logout(@RequestHeader("Authorization") String token)
             throws InvalidTokenException {
-
         return userService.logout(token);
     }
 
