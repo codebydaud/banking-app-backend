@@ -36,9 +36,9 @@ public class AdminServiceImpl implements AdminService {
     private final UserService userService;
 
     @Override
-    public ResponseEntity<String> login(LoginRequest loginRequest, String requestMaker, HttpServletRequest request)
+    public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
             throws InvalidTokenException {
-        return userService.login(loginRequest, requestMaker, request);
+        return userService.login(loginRequest, "admin", request);
     }
 
     public List<AccountResponse> getAllAccounts() {

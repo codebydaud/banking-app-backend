@@ -34,13 +34,13 @@ public class AdminController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request)
             throws InvalidTokenException {
-        String requestMaker = "admin";
-        return adminService.login(loginRequest, requestMaker, request);
+        return adminService.login(loginRequest, request);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @GetMapping("/logout")
     public ModelAndView logout(@RequestHeader("Authorization") String token)
+
             throws InvalidTokenException {
         return adminService.logout(token);
     }

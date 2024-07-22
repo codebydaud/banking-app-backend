@@ -45,6 +45,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<String> login(LoginRequest loginRequest, String requestMaker, HttpServletRequest request)
             throws InvalidTokenException {
+        if (requestMaker == null) {
+            requestMaker = "customer";
+        }
+        log.info("Request Maker : " + requestMaker);
         val user = authenticateUser(loginRequest, requestMaker);
         val token = generateAndSaveToken(user.getAccount() == null ? user.getEmail() : user.getAccount().getAccountNumber());
         return ResponseEntity.ok(String.format(ApiMessages.TOKEN_ISSUED_SUCCESS.getMessage(), token));
@@ -83,8 +87,7 @@ public class UserServiceImpl implements UserService {
             authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(user.getAccount() == null ? loginRequest.identifier() : user.getAccount().getAccountNumber(), loginRequest.password()));
             return user;
-        }
-        else {
+        } else {
             throw new UserInvalidException(
                     String.format(ApiMessages.USER_NOT_FOUND_BY_IDENTIFIER.getMessage(), loginRequest.identifier()));
         }
