@@ -75,25 +75,4 @@ public class AdminController {
             throws InvalidTokenException {
         return adminService.logout(token);
     }
-
-//    @GetMapping("/{accountId}")
-//    public ResponseEntity<Account> getAccountById(@PathVariable Long accountId) {
-//        return ResponseEntity.ok(accountService.getAccountById(accountId));
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<Account> createAccount(@RequestBody Account account) {
-//        return ResponseEntity.ok(accountService.createAccount(account));
-//    }
-//
-//    @PutMapping("/{accountId}")
-//    public ResponseEntity<Account> updateAccount(@PathVariable Long accountId, @RequestBody Account account) {
-//        return ResponseEntity.ok(accountService.updateAccount(accountId, account));
-//    }
-//
-//    @DeleteMapping("/{accountId}")
-//    public ResponseEntity<Void> deleteAccount(@PathVariable Long accountId) {
-//        accountService.deleteAccount(accountId);
-//        return ResponseEntity.noContent().build();
-//    }
 }
