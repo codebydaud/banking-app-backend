@@ -2,6 +2,7 @@ package com.codebydaud.training.banking_app.service;
 
 import com.codebydaud.training.banking_app.dto.AccountResponse;
 import com.codebydaud.training.banking_app.dto.LoginRequest;
+import com.codebydaud.training.banking_app.dto.TransactionDTO;
 import com.codebydaud.training.banking_app.dto.UserResponse;
 import com.codebydaud.training.banking_app.entity.Account;
 import com.codebydaud.training.banking_app.entity.User;
@@ -43,6 +44,7 @@ public class AdminServiceImpl implements AdminService {
     private final AuthenticationManager authenticationManager;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final TransactionService transactionService;
 
     @Override
     public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
@@ -67,10 +69,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public List<TransactionDTO> getUserTransactions(String accountNumber) {
+        return transactionService.getAllTransactionsByAccountNumber(accountNumber);
+    }
+
+    @Override
     public ResponseEntity<String> updateUser(String accountNumber, User updatedUser) {
         log.info(updatedUser.toString());
         User existingUser = userService.getUserByAccountNumber(accountNumber);
-        existingUser=updateUserDetails(existingUser, updatedUser);
+        existingUser = updateUserDetails(existingUser, updatedUser);
         existingUser.setPassword(passwordEncoder.encode(existingUser.getPassword()));
         val savedUser = userRepository.save(existingUser);
         return ResponseEntity.ok(JsonUtil.toJson(new UserResponse(savedUser)));
@@ -78,8 +85,15 @@ public class AdminServiceImpl implements AdminService {
 
     private User updateUserDetails(User existingUser, User updatedUser) {
         ValidationUtil.validateUserDetails(updatedUser);
-//        updatedUser.setPassword(existingUser.getPassword());
         return userMapper.updateUser(updatedUser, existingUser);
+    }
+
+    public void deleteAccount(String accountNumber) {
+        val user = userRepository.findByAccountAccountNumber(accountNumber)
+                .orElseThrow(() -> new UserInvalidException(
+                        String.format(ApiMessages.USER_NOT_FOUND_BY_ACCOUNT.getMessage(), accountNumber)));
+
+        userRepository.delete(user);
     }
 
     @Override

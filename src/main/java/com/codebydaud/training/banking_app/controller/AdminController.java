@@ -48,9 +48,24 @@ public class AdminController {
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @PostMapping("/update/{accountNumber}")
+    @GetMapping("/accounts/{accountNumber}/transactions")
+    public ResponseEntity<String> getUserTransactions(@PathVariable String accountNumber) {
+        val transactions = adminService
+                .getUserTransactions(accountNumber);
+        return ResponseEntity.ok(JsonUtil.toJson(transactions));
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @PutMapping("/update/{accountNumber}")
     public ResponseEntity<String> updateUser(@PathVariable String accountNumber, @RequestBody User user) {
         return adminService.updateUser(accountNumber, user);
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @DeleteMapping("/accounts/{accountNumber}")
+    public ResponseEntity<String> deleteAccount(@PathVariable String accountNumber) {
+        adminService.deleteAccount(accountNumber);
+        return ResponseEntity.ok("Account deleted successfully.");
     }
 
     @PreAuthorize("hasAuthority('admin')")

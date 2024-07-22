@@ -2,6 +2,7 @@ package com.codebydaud.training.banking_app.service;
 
 import com.codebydaud.training.banking_app.dto.AccountResponse;
 import com.codebydaud.training.banking_app.dto.LoginRequest;
+import com.codebydaud.training.banking_app.dto.TransactionDTO;
 import com.codebydaud.training.banking_app.dto.UserResponse;
 import com.codebydaud.training.banking_app.entity.Account;
 import com.codebydaud.training.banking_app.entity.User;
@@ -25,7 +26,11 @@ public interface AdminService {
 
     UserResponse getUserDetailsByAccountNumber(String accountNumber);
 
+    List<TransactionDTO> getUserTransactions(String accountNumber);
+
     public ResponseEntity<String> updateUser(String accountNUmber, User user);
+
+    public void deleteAccount(String accountNumber);
 
     public ModelAndView logout(String token) throws InvalidTokenException;
 
