@@ -2,13 +2,17 @@ package com.codebydaud.training.banking_app.service;
 
 import com.codebydaud.training.banking_app.dto.AccountResponse;
 import com.codebydaud.training.banking_app.dto.LoginRequest;
+import com.codebydaud.training.banking_app.dto.UserResponse;
 import com.codebydaud.training.banking_app.entity.Account;
 import com.codebydaud.training.banking_app.entity.User;
 import com.codebydaud.training.banking_app.exception.InvalidTokenException;
+import com.codebydaud.training.banking_app.exception.NotFoundException;
 import com.codebydaud.training.banking_app.exception.UserInvalidException;
+import com.codebydaud.training.banking_app.mapper.UserMapper;
 import com.codebydaud.training.banking_app.repository.AccountRepository;
 import com.codebydaud.training.banking_app.repository.UserRepository;
 import com.codebydaud.training.banking_app.util.ApiMessages;
+import com.codebydaud.training.banking_app.util.JsonUtil;
 import com.codebydaud.training.banking_app.util.ValidationUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.NoArgsConstructor;
@@ -24,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +39,10 @@ public class AdminServiceImpl implements AdminService {
 
     private final AccountRepository accountRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
@@ -49,7 +58,36 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public UserResponse getUserDetailsByAccountNumber(String accountNumber) {
+        val user = userRepository.findByAccountAccountNumber(accountNumber)
+                .orElseThrow(() -> new NotFoundException(
+                        String.format(ApiMessages.USER_NOT_FOUND_BY_ACCOUNT.getMessage(), accountNumber)));
+
+        return new UserResponse(user);
+    }
+
+    @Override
+    public ResponseEntity<String> updateUser(String accountNumber, User updatedUser) {
+        log.info(updatedUser.toString());
+        User existingUser = userService.getUserByAccountNumber(accountNumber);
+        existingUser=updateUserDetails(existingUser, updatedUser);
+        existingUser.setPassword(passwordEncoder.encode(existingUser.getPassword()));
+        val savedUser = userRepository.save(existingUser);
+        return ResponseEntity.ok(JsonUtil.toJson(new UserResponse(savedUser)));
+    }
+
+    private User updateUserDetails(User existingUser, User updatedUser) {
+        ValidationUtil.validateUserDetails(updatedUser);
+//        updatedUser.setPassword(existingUser.getPassword());
+        return userMapper.updateUser(updatedUser, existingUser);
+    }
+
+    @Override
     public ModelAndView logout(String token) throws InvalidTokenException {
         return userService.logout(token);
+    }
+
+    private void authenticateUser(String accountNumber, String password) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(accountNumber, password));
     }
 }

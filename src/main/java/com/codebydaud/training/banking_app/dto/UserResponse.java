@@ -14,6 +14,7 @@ public class UserResponse {
     private String phoneNumber;
     private String address;
     private String accountNumber;
+    private double balance;
 
     public UserResponse(User user) {
         this.name = user.getName();
@@ -22,6 +23,7 @@ public class UserResponse {
         this.phoneNumber = user.getPhoneNumber();
         this.address = user.getAddress();
         this.accountNumber = user.getAccount().getAccountNumber();
+        this.balance=user.getAccount().getBalance();
     }
 
 }

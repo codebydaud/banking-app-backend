@@ -2,10 +2,13 @@ package com.codebydaud.training.banking_app.controller;
 
 import com.codebydaud.training.banking_app.dto.LoginRequest;
 import com.codebydaud.training.banking_app.entity.Account;
+import com.codebydaud.training.banking_app.dto.UserResponse;
+import com.codebydaud.training.banking_app.entity.User;
 import com.codebydaud.training.banking_app.exception.InvalidTokenException;
 import com.codebydaud.training.banking_app.service.AccountService;
 import com.codebydaud.training.banking_app.service.AdminService;
 import com.codebydaud.training.banking_app.util.JsonUtil;
+import com.codebydaud.training.banking_app.util.LoggedinUser;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +27,30 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @PreAuthorize("hasAuthority('admin')")
-    @GetMapping("/accounts")
-    public ResponseEntity<String> getAllAccounts() {
-        val accountList=adminService.getAllAccounts();
-        return ResponseEntity.ok(JsonUtil.toJson(accountList));
-    }
-
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request)
             throws InvalidTokenException {
         return adminService.login(loginRequest, request);
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @GetMapping("/accounts")
+    public ResponseEntity<String> getAllAccounts() {
+        val accountList = adminService.getAllAccounts();
+        return ResponseEntity.ok(JsonUtil.toJson(accountList));
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @GetMapping("/account/{accountNumber}")
+    public ResponseEntity<String> getUserDetailsByAccountNumber(@PathVariable String accountNumber) {
+        val userResponse = adminService.getUserDetailsByAccountNumber(accountNumber);
+        return ResponseEntity.ok(JsonUtil.toJson(userResponse));
+    }
+
+    @PreAuthorize("hasAuthority('admin')")
+    @PostMapping("/update/{accountNumber}")
+    public ResponseEntity<String> updateUser(@PathVariable String accountNumber, @RequestBody User user) {
+        return adminService.updateUser(accountNumber, user);
     }
 
     @PreAuthorize("hasAuthority('admin')")
