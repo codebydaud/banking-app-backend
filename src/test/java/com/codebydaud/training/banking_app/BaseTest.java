@@ -124,6 +124,7 @@ public abstract class BaseTest {
         user.setAddress(faker.address().fullAddress());
         user.setCountryCode(countryCode);
         user.setPhoneNumber(phoneNumber);
+        user.setRole("customer");
         return user;
     }
 

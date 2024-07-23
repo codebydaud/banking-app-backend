@@ -9,7 +9,6 @@ import com.codebydaud.training.banking_app.entity.User;
 import com.codebydaud.training.banking_app.exception.InvalidTokenException;
 import com.codebydaud.training.banking_app.exception.NotFoundException;
 import com.codebydaud.training.banking_app.exception.UserInvalidException;
-import com.codebydaud.training.banking_app.mapper.UserMapper;
 import com.codebydaud.training.banking_app.repository.AccountRepository;
 import com.codebydaud.training.banking_app.repository.UserRepository;
 import com.codebydaud.training.banking_app.util.ApiMessages;
@@ -19,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,8 +34,6 @@ public class AdminServiceImpl implements AdminService {
     private final AccountRepository accountRepository;
     private final UserService userService;
     private final UserRepository userRepository;
-    private final AuthenticationManager authenticationManager;
-    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final TransactionService transactionService;
 
@@ -72,15 +68,19 @@ public class AdminServiceImpl implements AdminService {
     public ResponseEntity<String> updateUser(String accountNumber, User updatedUser) {
         log.info(updatedUser.toString());
         User existingUser = userService.getUserByAccountNumber(accountNumber);
-        existingUser = updateUserDetails(existingUser, updatedUser);
-        existingUser.setPassword(passwordEncoder.encode(existingUser.getPassword()));
-        val savedUser = userRepository.save(existingUser);
+        val savedUser = userRepository.save(updateUserDetails(existingUser, updatedUser));
         return ResponseEntity.ok(JsonUtil.toJson(new UserResponse(savedUser)));
     }
 
     private User updateUserDetails(User existingUser, User updatedUser) {
         ValidationUtil.validateUserDetails(updatedUser);
-        return userMapper.updateUser(updatedUser, existingUser);
+        existingUser.setName(updatedUser.getName());
+        existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        existingUser.setEmail(updatedUser.getEmail());
+        existingUser.setCountryCode(updatedUser.getCountryCode());
+        existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        existingUser.setAddress(updatedUser.getAddress());
+        return existingUser;
     }
 
     public void deleteAccount(String accountNumber) {
