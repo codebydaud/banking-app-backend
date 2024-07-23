@@ -1,24 +1,17 @@
 package com.codebydaud.training.banking_app.controller;
 
 import com.codebydaud.training.banking_app.dto.LoginRequest;
-import com.codebydaud.training.banking_app.entity.Account;
-import com.codebydaud.training.banking_app.dto.UserResponse;
 import com.codebydaud.training.banking_app.entity.User;
 import com.codebydaud.training.banking_app.exception.InvalidTokenException;
-import com.codebydaud.training.banking_app.service.AccountService;
 import com.codebydaud.training.banking_app.service.AdminService;
 import com.codebydaud.training.banking_app.util.JsonUtil;
-import com.codebydaud.training.banking_app.util.LoggedinUser;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -28,9 +21,9 @@ public class AdminController {
     private final AdminService adminService;
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request)
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest)
             throws InvalidTokenException {
-        return adminService.login(loginRequest, request);
+        return adminService.login(loginRequest);
     }
 
     @PreAuthorize("hasAuthority('admin')")

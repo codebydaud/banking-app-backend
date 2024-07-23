@@ -9,7 +9,6 @@ import com.codebydaud.training.banking_app.repository.UserRepository;
 import com.codebydaud.training.banking_app.util.ApiMessages;
 import com.codebydaud.training.banking_app.util.ValidationUtil;
 import io.jsonwebtoken.*;
-import jakarta.mail.internet.InternetAddress;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Date;
 import java.util.function.Function;

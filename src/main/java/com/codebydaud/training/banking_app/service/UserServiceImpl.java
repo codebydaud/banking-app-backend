@@ -9,7 +9,6 @@ import com.codebydaud.training.banking_app.repository.UserRepository;
 import com.codebydaud.training.banking_app.util.ApiMessages;
 import com.codebydaud.training.banking_app.util.JsonUtil;
 import com.codebydaud.training.banking_app.util.ValidationUtil;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<String> login(LoginRequest loginRequest, String requestMaker, HttpServletRequest request)
+    public ResponseEntity<String> login(LoginRequest loginRequest, String requestMaker)
             throws InvalidTokenException {
         if (requestMaker == null) {
             requestMaker = "customer";

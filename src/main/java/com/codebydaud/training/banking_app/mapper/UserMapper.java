@@ -10,5 +10,5 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 public interface UserMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    public User updateUser(User source, @MappingTarget User target);
+    User updateUser(User source, @MappingTarget User target);
 }

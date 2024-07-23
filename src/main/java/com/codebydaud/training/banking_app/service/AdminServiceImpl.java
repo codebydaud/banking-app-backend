@@ -15,21 +15,16 @@ import com.codebydaud.training.banking_app.repository.UserRepository;
 import com.codebydaud.training.banking_app.util.ApiMessages;
 import com.codebydaud.training.banking_app.util.JsonUtil;
 import com.codebydaud.training.banking_app.util.ValidationUtil;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,9 +42,9 @@ public class AdminServiceImpl implements AdminService {
     private final TransactionService transactionService;
 
     @Override
-    public ResponseEntity<String> login(LoginRequest loginRequest, HttpServletRequest request)
+    public ResponseEntity<String> login(LoginRequest loginRequest)
             throws InvalidTokenException {
-        return userService.login(loginRequest, "admin", request);
+        return userService.login(loginRequest, "admin");
     }
 
     public List<AccountResponse> getAllAccounts() {
@@ -99,9 +94,5 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public ModelAndView logout(String token) throws InvalidTokenException {
         return userService.logout(token);
-    }
-
-    private void authenticateUser(String accountNumber, String password) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(accountNumber, password));
     }
 }

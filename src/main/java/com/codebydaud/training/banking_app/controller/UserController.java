@@ -33,9 +33,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request)
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest)
             throws InvalidTokenException {
-        return userService.login(loginRequest,null, request);
+        return userService.login(loginRequest,null);
     }
 
     @PreAuthorize("hasAuthority('customer')")

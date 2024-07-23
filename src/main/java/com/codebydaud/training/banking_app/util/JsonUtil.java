@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 public interface JsonUtil {
 
-    public static final Logger logger = LoggerFactory.getLogger(JsonUtil.class);
-    public static final ObjectMapper objectMapper = new ObjectMapper()
+    Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+    ObjectMapper objectMapper = new ObjectMapper()
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
     /**
@@ -18,7 +18,7 @@ public interface JsonUtil {
      * @param obj the object to be converted to JSON
      * @return the JSON string representation of the object
      */
-    public static String toJson(Object obj) {
+    static String toJson(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (JsonProcessingException e) {

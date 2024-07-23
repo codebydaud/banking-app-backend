@@ -11,21 +11,21 @@ import java.util.function.Function;
 public interface TokenService extends UserDetailsService {
 
 
-    public String generateToken(UserDetails userDetails);
+    String generateToken(UserDetails userDetails);
 
-    public String generateToken(UserDetails userDetails, Date expiry);
+    String generateToken(UserDetails userDetails, Date expiry);
 
-    public String getUsernameFromToken(String token) throws InvalidTokenException;
+    String getUsernameFromToken(String token) throws InvalidTokenException;
 
-    public Date getExpirationDateFromToken(String token) throws InvalidTokenException;
+    Date getExpirationDateFromToken(String token) throws InvalidTokenException;
 
-    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver)
+    <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver)
             throws InvalidTokenException;
 
-    public void saveToken(String token) throws InvalidTokenException;
+    void saveToken(String token) throws InvalidTokenException;
 
-    public void validateToken(String token) throws InvalidTokenException;
+    void validateToken(String token) throws InvalidTokenException;
 
-    public void invalidateToken(String token);
+    void invalidateToken(String token);
 
 }
