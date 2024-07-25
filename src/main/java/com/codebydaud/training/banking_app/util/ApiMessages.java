@@ -13,7 +13,7 @@ public enum ApiMessages {
     AMOUNT_NOT_MULTIPLE_OF_100_ERROR("Amount must be in multiples of 100"),
     BALANCE_INSUFFICIENT_ERROR("Insufficient balance"),
     CASH_TRANSFER_SAME_ACCOUNT_ERROR("Source and target account cannot be the same"),
-    CASH_TRANSFER_SUCCESS("{\"msg\": \"Fund transferred successfully\"}"),
+    CASH_TRANSFER_SUCCESS("Fund transferred successfully"),
     EMAIL_SUBJECT_LOGIN("New login to Banking-App"),
     IDENTIFIER_MISSING_ERROR("Missing identifier"),
     PASSWORD_CONTAINS_WHITESPACE_ERROR("Password cannot contain any whitespace characters"),
