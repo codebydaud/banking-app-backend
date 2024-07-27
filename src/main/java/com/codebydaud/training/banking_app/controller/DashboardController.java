@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/dashboard")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class DashboardController {
 
     private final DashboardService dashboardService;
 
     @PreAuthorize("hasAuthority('customer')")
-    @GetMapping("/user")
+    @GetMapping("/user/profile")
     public ResponseEntity<String> getUserDetails() {
         val accountNumber = LoggedinUser.getAccountNumber();
         val userResponse = dashboardService.getUserDetails(accountNumber);
@@ -28,7 +28,7 @@ public class DashboardController {
     }
 
     @PreAuthorize("hasAuthority('customer')")
-    @GetMapping("/account")
+    @GetMapping("/user/account")
     public ResponseEntity<String> getAccountDetails() {
         val accountNumber = LoggedinUser.getAccountNumber();
         val accountResponse = dashboardService.getAccountDetails(accountNumber);

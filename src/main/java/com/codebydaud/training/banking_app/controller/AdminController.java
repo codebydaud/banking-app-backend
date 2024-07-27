@@ -40,7 +40,7 @@ public class AdminController {
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @GetMapping("/accounts/{accountNumber}/transactions")
+    @GetMapping("/account/{accountNumber}/transactions")
     public ResponseEntity<String> getUserTransactions(@PathVariable String accountNumber) {
         val transactions = adminService
                 .getUserTransactions(accountNumber);
@@ -54,7 +54,7 @@ public class AdminController {
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @DeleteMapping("/accounts/{accountNumber}")
+    @DeleteMapping("/account/{accountNumber}")
     public ResponseEntity<String> deleteAccount(@PathVariable String accountNumber) {
         adminService.deleteAccount(accountNumber);
         return ResponseEntity.ok("Account deleted successfully.");

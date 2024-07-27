@@ -34,7 +34,7 @@ public class DashboardServiceImpl implements DashboardService {
             throw new NotFoundException(String.format(ApiMessages.USER_NOT_FOUND_BY_ACCOUNT.getMessage(), accountNumber));
         }
 
-        return new AccountResponse(account);
+        return new AccountResponse(account,userRepository.findByAccountAccountNumber(accountNumber).get().getName());
     }
 
 }

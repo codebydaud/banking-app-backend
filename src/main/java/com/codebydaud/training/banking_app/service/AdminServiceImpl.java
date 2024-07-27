@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,9 +45,18 @@ public class AdminServiceImpl implements AdminService {
     }
 
     public List<AccountResponse> getAllAccounts() {
+//        List<Account> accounts = accountRepository.findAll();
+//        return accounts.stream()
+//                .map(AccountResponse::new)
+//                .collect(Collectors.toList());
+
         List<Account> accounts = accountRepository.findAll();
         return accounts.stream()
-                .map(AccountResponse::new)
+                .map(account -> {
+                    Optional<User> user = userRepository.findByAccountAccountNumber(account.getAccountNumber());
+                    String accountHolderName = user.isPresent()?user.get().getName():"Unknowns";
+                    return new AccountResponse(account, accountHolderName);
+                })
                 .collect(Collectors.toList());
     }
 

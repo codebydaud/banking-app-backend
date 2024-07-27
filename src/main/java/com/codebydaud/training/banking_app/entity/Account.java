@@ -2,6 +2,7 @@ package com.codebydaud.training.banking_app.entity;//package com.codebydaud.trai
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -32,7 +33,7 @@ public class Account {
     private double balance;
 
     @NotEmpty
-    private LocalDateTime createdAt;
+    private Date createdAt=new Date();
 
     @NotNull
     @OneToOne

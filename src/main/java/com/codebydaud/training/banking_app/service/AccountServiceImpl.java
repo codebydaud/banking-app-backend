@@ -33,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = new Account();
         account.setAccountNumber(generateUniqueAccountNumber());
         account.setBalance(1000); //default
-        account.setCreatedAt(LocalDateTime.now());
+        account.setCreatedAt(new Date());
         account.setUser(user);
         return accountRepository.save(account);
     }
