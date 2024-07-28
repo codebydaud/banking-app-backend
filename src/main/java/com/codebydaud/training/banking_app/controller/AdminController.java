@@ -48,7 +48,7 @@ public class AdminController {
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @PutMapping("/update/{accountNumber}")
+    @PutMapping("/account/{accountNumber}")
     public ResponseEntity<String> updateUser(@PathVariable String accountNumber, @RequestBody User user) {
         return adminService.updateUser(accountNumber, user);
     }
