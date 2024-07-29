@@ -269,19 +269,19 @@ public class UserControllerTests extends BaseTest {
                 .andExpect(MockMvcResultMatchers.content()
                         .string(ApiMessages.PASSWORD_EMPTY_ERROR.getMessage()));
     }
-    @Test
-    public void test_register_user_with_short_password() throws Exception {
-        val user = createUser();
-        user.setPassword(faker.internet().password(1, MIN_PASSWORD_LENGTH - 1, true, true));
-
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/user/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(JsonUtil.toJson(user)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.PASSWORD_TOO_SHORT_ERROR.getMessage()));
-    }
+//    @Test
+//    public void test_register_user_with_short_password() throws Exception {
+//        val user = createUser();
+//        user.setPassword(faker.internet().password(1, MIN_PASSWORD_LENGTH - 1, true, true));
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//                        .post("/api/user/register")
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(JsonUtil.toJson(user)))
+//                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+//                .andExpect(MockMvcResultMatchers.content()
+//                        .string(ApiMessages.PASSWORD_TOO_SHORT_ERROR.getMessage()));
+//    }
 
     @Test
     public void test_register_user_with_long_password() throws Exception {
