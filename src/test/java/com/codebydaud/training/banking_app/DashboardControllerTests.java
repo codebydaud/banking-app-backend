@@ -26,7 +26,7 @@ public class DashboardControllerTests extends BaseTest {
         createAndLoginUser();
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/dashboard/account")
+                        .get("/api/user/account")
                         .header("Authorization","Bearer " + userDetails.get("token"))
                         .with(SecurityMockMvcRequestPostProcessors.user(userDetails.get("accountNumber"))
                                 .authorities(new SimpleGrantedAuthority("customer"))))
@@ -40,7 +40,7 @@ public class DashboardControllerTests extends BaseTest {
     @Test
     public void test_get_account_details_unauthorized() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/dashboard/account"))
+                        .get("/api/user/account"))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 
@@ -49,7 +49,7 @@ public class DashboardControllerTests extends BaseTest {
         createAndLoginUser();
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/dashboard/user")
+                        .get("/api/user/profile")
                         .header("Authorization","Bearer " + userDetails.get("token"))
                         .with(SecurityMockMvcRequestPostProcessors.user(userDetails.get("accountNumber"))
                                 .authorities(new SimpleGrantedAuthority("customer"))))
@@ -67,7 +67,7 @@ public class DashboardControllerTests extends BaseTest {
     @Test
     public void test_get_user_details_unauthorized() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/dashboard/user"))
+                        .get("/api/user/profile"))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 }

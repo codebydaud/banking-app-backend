@@ -1,7 +1,6 @@
 package com.codebydaud.training.banking_app.dto;
 
 import com.codebydaud.training.banking_app.entity.Account;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;

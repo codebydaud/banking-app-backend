@@ -32,7 +32,7 @@ public class UserControllerTests extends BaseTest {
         user.setName("");
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -46,7 +46,7 @@ public class UserControllerTests extends BaseTest {
         user.setName(null);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -60,7 +60,7 @@ public class UserControllerTests extends BaseTest {
         user.setEmail("");
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -74,7 +74,7 @@ public class UserControllerTests extends BaseTest {
         user.setEmail(null);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -88,7 +88,7 @@ public class UserControllerTests extends BaseTest {
         user.setCountryCode("");
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -102,7 +102,7 @@ public class UserControllerTests extends BaseTest {
         user.setCountryCode(null);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -116,7 +116,7 @@ public class UserControllerTests extends BaseTest {
         user.setPhoneNumber("");
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -130,7 +130,7 @@ public class UserControllerTests extends BaseTest {
         user.setPhoneNumber(null);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -144,7 +144,7 @@ public class UserControllerTests extends BaseTest {
         user.setAddress("");
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -158,7 +158,7 @@ public class UserControllerTests extends BaseTest {
         user.setAddress(null);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -173,7 +173,7 @@ public class UserControllerTests extends BaseTest {
         user2.setEmail(user1.getEmail());
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user2)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -188,7 +188,7 @@ public class UserControllerTests extends BaseTest {
         user2.setPhoneNumber(user1.getPhoneNumber());
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user2)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -203,7 +203,7 @@ public class UserControllerTests extends BaseTest {
         user.setEmail(email);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -218,7 +218,7 @@ public class UserControllerTests extends BaseTest {
         user.setCountryCode(countryCode);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -233,7 +233,7 @@ public class UserControllerTests extends BaseTest {
         user.setPhoneNumber(phoneNumber);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -248,7 +248,7 @@ public class UserControllerTests extends BaseTest {
         user.setPassword("");
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -262,7 +262,7 @@ public class UserControllerTests extends BaseTest {
         user.setPassword(null);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -275,7 +275,7 @@ public class UserControllerTests extends BaseTest {
         user.setPassword(faker.internet().password(1, MIN_PASSWORD_LENGTH - 1, true, true));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -289,7 +289,7 @@ public class UserControllerTests extends BaseTest {
         user.setPassword(faker.internet().password(MAX_PASSWORD_LENGTH + 1, MAX_PASSWORD_LENGTH * 2, true, true));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -303,7 +303,7 @@ public class UserControllerTests extends BaseTest {
         user.setPassword(faker.lorem().sentence());
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -317,7 +317,7 @@ public class UserControllerTests extends BaseTest {
         user.setPassword(faker.internet().password(MAX_PASSWORD_LENGTH - 1, MAX_PASSWORD_LENGTH, false, true));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -332,7 +332,7 @@ public class UserControllerTests extends BaseTest {
                 .toUpperCase());
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -346,7 +346,7 @@ public class UserControllerTests extends BaseTest {
         user.setPassword("!" + faker.lorem().characters(MAX_PASSWORD_LENGTH - 1, true, false));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -360,7 +360,7 @@ public class UserControllerTests extends BaseTest {
         user.setPassword(faker.internet().password(MAX_PASSWORD_LENGTH - 1, MAX_PASSWORD_LENGTH, true, false));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -378,7 +378,7 @@ public class UserControllerTests extends BaseTest {
         val loginRequest = new LoginRequest(getRandomAccountNumber(), getRandomPassword());
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/login")
+                        .post("/api/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(loginRequest)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
@@ -396,7 +396,7 @@ public class UserControllerTests extends BaseTest {
         val loginRequest = new LoginRequest(accountNumber, getRandomPassword());
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/login")
+                        .post("/api/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(loginRequest)))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
@@ -407,7 +407,7 @@ public class UserControllerTests extends BaseTest {
         val loginRequest = new LoginRequest("", getRandomPassword());
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/login")
+                        .post("/api/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(loginRequest)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
@@ -425,7 +425,7 @@ public class UserControllerTests extends BaseTest {
         val loginRequest = new LoginRequest(accountNumber, "");
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/login")
+                        .post("/api/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(loginRequest)))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
@@ -436,7 +436,7 @@ public class UserControllerTests extends BaseTest {
         val userDetails = createAndLoginUser();
 
         val response = mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/users/logout")
+                        .get("/api/user/logout")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .with(SecurityMockMvcRequestPostProcessors.user(userDetails.get("accountNumber"))
                                 .authorities(new SimpleGrantedAuthority("customer"))))
@@ -469,7 +469,7 @@ public class UserControllerTests extends BaseTest {
         val token = tokenService.generateToken(userDetails);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/users/logout")
+                        .get("/api/user/logout")
                         .header("Authorization", "Bearer " + token)
                 .with(SecurityMockMvcRequestPostProcessors.user(accountNumber)
                         .authorities(new SimpleGrantedAuthority("customer"))))
@@ -489,7 +489,7 @@ public class UserControllerTests extends BaseTest {
         val token = tokenService.generateToken(userDetails);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/users/logout")
+                        .get("/api/user/logout")
                         .header("Authorization", "Bearer " + token)
                         .with(SecurityMockMvcRequestPostProcessors.user(accountNumber)
                                 .authorities(new SimpleGrantedAuthority("customer"))))
@@ -499,7 +499,7 @@ public class UserControllerTests extends BaseTest {
     @Test
     public void test_logout_with_malformed_token() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/users/logout")
+                        .get("/api/user/logout")
                         .header("Authorization", "Bearer invalid-token"))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
@@ -507,7 +507,7 @@ public class UserControllerTests extends BaseTest {
     @Test
     public void test_logout_without_authorization() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/users/logout"))
+                        .get("/api/user/logout"))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 

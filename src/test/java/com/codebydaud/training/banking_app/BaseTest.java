@@ -131,7 +131,7 @@ public abstract class BaseTest {
     protected User createAndRegisterUser() throws Exception {
         val user = createUser();
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/register")
+                        .post("/api/user/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(user)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -145,7 +145,7 @@ public abstract class BaseTest {
         val loginRequest = new LoginRequest(accountNumber, user.getPassword());
 
         val loginResult = mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/users/login")
+                        .post("/api/user/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(loginRequest)))
                 .andExpect(MockMvcResultMatchers.status().isOk())

@@ -24,7 +24,7 @@ public class AccountControllerTests extends BaseTest {
                 createAndLoginUser().get("accountNumber"), "Testing", amount);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/account/fund-transfer")
+                        .post("/api/user/fund-transfer")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(fundTransferRequest))
@@ -44,7 +44,7 @@ public class AccountControllerTests extends BaseTest {
                 userDetails.get("accountNumber"), "Testing", amount);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/account/fund-transfer")
+                        .post("/api/user/fund-transfer")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(fundTransferRequest))
@@ -64,7 +64,7 @@ public class AccountControllerTests extends BaseTest {
                 "Testing", amount);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/account/fund-transfer")
+                        .post("/api/user/fund-transfer")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(fundTransferRequest))
@@ -84,7 +84,7 @@ public class AccountControllerTests extends BaseTest {
                 createAndLoginUser().get("accountNumber"), "Testing", amount * 50);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/account/fund-transfer")
+                        .post("/api/user/fund-transfer")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(fundTransferRequest))
@@ -104,7 +104,7 @@ public class AccountControllerTests extends BaseTest {
                 createAndLoginUser().get("accountNumber"), "Testing", -amount);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/account/fund-transfer")
+                        .post("/api/user/fund-transfer")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(fundTransferRequest))
@@ -124,7 +124,7 @@ public class AccountControllerTests extends BaseTest {
                 createAndLoginUser().get("accountNumber"), "Testing", 0.0);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/account/fund-transfer")
+                        .post("/api/user/fund-transfer")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(fundTransferRequest))
@@ -144,7 +144,7 @@ public class AccountControllerTests extends BaseTest {
                 "Testing", amount);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/account/fund-transfer")
+                        .post("/api/user/fund-transfer")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(fundTransferRequest))
@@ -164,7 +164,7 @@ public class AccountControllerTests extends BaseTest {
                 createAndLoginUser().get("accountNumber"), "Testing", amount);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/account/fund-transfer")
+                        .post("/api/user/fund-transfer")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(fundTransferRequest)))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
@@ -179,7 +179,7 @@ public class AccountControllerTests extends BaseTest {
                 createAndLoginUser().get("accountNumber"), "Testing", amount);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/account/fund-transfer")
+                        .post("/api/user/fund-transfer")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(fundTransferRequest))
@@ -189,7 +189,7 @@ public class AccountControllerTests extends BaseTest {
                 .andExpect(MockMvcResultMatchers.content().string(ApiMessages.CASH_TRANSFER_SUCCESS.getMessage()));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/account/transactions")
+                        .get("/api/user/transactions")
                         .header("Authorization", "Bearer " + userDetails.get("token")))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content()
@@ -200,7 +200,7 @@ public class AccountControllerTests extends BaseTest {
     @Test
     public void test_transactions_unauthorized_access() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/account/transactions"))
+                        .get("/api/user/transactions"))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 
