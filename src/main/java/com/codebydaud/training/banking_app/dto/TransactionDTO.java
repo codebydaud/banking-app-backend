@@ -20,6 +20,7 @@ public class TransactionDTO {
     private Date transactionDate;
     private String sourceAccountNumber;
     private String targetAccountNumber;
+    private String description;
 
     public TransactionDTO(Transaction transaction) {
         this.transactionId = transaction.getTransactionId();
@@ -27,6 +28,7 @@ public class TransactionDTO {
         this.transactionType = transaction.getTransactionType();
         this.transactionDate = transaction.getTransactionDate();
         this.sourceAccountNumber = transaction.getSourceAccount().getAccountNumber();
+        this.description=transaction.getDescription();
 
         val targetAccount = transaction.getTargetAccount();
         var targetAccountNumber = "N/A";
