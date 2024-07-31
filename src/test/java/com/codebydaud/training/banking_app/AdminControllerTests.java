@@ -92,9 +92,9 @@ public class AdminControllerTests extends BaseTest {
     public void test_view_user_details_by_account_number_with_valid_credentials() throws Exception {
 
         String token = LoginAdmin();
-        val user = userRepository.findByAccountAccountNumber("ACC-78902424");
+        val user = userRepository.findByAccountAccountNumber("xd1y2345s0");
         val response = mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/admin/account/ACC-78902424")
+                        .get("/api/admin/account/xd1y2345s0")
                         .header("Authorization", "Bearer " + token)
                         .with(SecurityMockMvcRequestPostProcessors.user("admin@gmail.com")
                                 .authorities(new SimpleGrantedAuthority("admin"))))
@@ -108,9 +108,9 @@ public class AdminControllerTests extends BaseTest {
     public void test_view_user_details_by_account_number_with_invalid_credentials() throws Exception {
 
         val userDetails = createAndLoginUser();
-        val user = userRepository.findByAccountAccountNumber("ACC-78902424");
+        val user = userRepository.findByAccountAccountNumber("xd1y2345s0");
         val response = mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/admin/account/ACC-78902424")
+                        .get("/api/admin/account/xd1y2345s0")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .with(SecurityMockMvcRequestPostProcessors.user(userDetails.get("accountNumber"))
                                 .authorities(new SimpleGrantedAuthority("customer"))))
@@ -121,9 +121,9 @@ public class AdminControllerTests extends BaseTest {
     public void test_view_user_transactions_by_account_number_with_valid_credentials() throws Exception {
 
         String token = LoginAdmin();
-        val user = userRepository.findByAccountAccountNumber("ACC-78902424");
+        val user = userRepository.findByAccountAccountNumber("xd1y2345s0");
         val response = mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/admin/account/ACC-78902424/transactions")
+                        .get("/api/admin/account/xd1y2345s0/transactions")
                         .header("Authorization", "Bearer " + token)
                         .with(SecurityMockMvcRequestPostProcessors.user("admin@gmail.com")
                                 .authorities(new SimpleGrantedAuthority("admin"))))
@@ -134,9 +134,9 @@ public class AdminControllerTests extends BaseTest {
     public void test_view_user_transactions_by_account_number_with_invalid_credentials() throws Exception {
 
         val userDetails = createAndLoginUser();
-        val user = userRepository.findByAccountAccountNumber("ACC-78902424");
+        val user = userRepository.findByAccountAccountNumber("xd1y2345s0");
         val response = mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/admin/account/ACC-78902424/transactions")
+                        .get("/api/admin/account/xd1y2345s0/transactions")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .with(SecurityMockMvcRequestPostProcessors.user(userDetails.get("accountNumber"))
                                 .authorities(new SimpleGrantedAuthority("customer"))))
@@ -242,7 +242,7 @@ public class AdminControllerTests extends BaseTest {
         val updatedUser = createUser();
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/admin/account/ACC-78902424")
+                        .put("/api/admin/account/xd1y2345s0")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(JsonUtil.toJson(updatedUser)))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
@@ -253,9 +253,9 @@ public class AdminControllerTests extends BaseTest {
     public void test_delete_account_by_account_number_with_valid_credentials() throws Exception {
 
         String token = LoginAdmin();
-        val user = userRepository.findByAccountAccountNumber("ACC-78902424");
+        val user = userRepository.findByAccountAccountNumber("xd1y2345s0");
         val response = mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/admin/account/ACC-78902424")
+                        .delete("/api/admin/account/xd1y2345s0")
                         .header("Authorization", "Bearer " + token)
                         .with(SecurityMockMvcRequestPostProcessors.user("admin@gmail.com")
                                 .authorities(new SimpleGrantedAuthority("admin"))))
@@ -266,9 +266,9 @@ public class AdminControllerTests extends BaseTest {
     public void test_delete_account_by_account_number_with_invalid_credentials() throws Exception {
 
         val userDetails = createAndLoginUser();
-        val user = userRepository.findByAccountAccountNumber("ACC-78902424");
+        val user = userRepository.findByAccountAccountNumber("xd1y2345s0");
         val response = mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/admin/account/ACC-78902424")
+                        .delete("/api/admin/account/xd1y2345s0")
                         .header("Authorization", "Bearer " + userDetails.get("token"))
                         .with(SecurityMockMvcRequestPostProcessors.user(userDetails.get("accountNumber"))
                                 .authorities(new SimpleGrantedAuthority("customer"))))

@@ -12,12 +12,6 @@ public interface JsonUtil {
     ObjectMapper objectMapper = new ObjectMapper()
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-    /**
-     * Convert an object to a JSON string.
-     *
-     * @param obj the object to be converted to JSON
-     * @return the JSON string representation of the object
-     */
     static String toJson(Object obj) {
         try {
             return objectMapper.writeValueAsString(obj);

@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -38,6 +39,7 @@ import static org.springframework.security.core.userdetails.User.withUsername;
 
 @SpringBootTest
 //@TestPropertySource(locations = "classpath:application.yaml")
+@ActiveProfiles("test")
 @Transactional
 @AutoConfigureMockMvc
 public abstract class BaseTest {

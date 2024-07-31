@@ -15,8 +15,9 @@ import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.security.SecureRandom;
 import java.util.Date;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -39,9 +40,14 @@ public class AccountServiceImpl implements AccountService {
 
     private String generateUniqueAccountNumber() {
         String accountNumber;
+        SecureRandom secureRandom = new SecureRandom();
+        int length = 10; // Desired length of the account number
+        long min = (long) Math.pow(10, length - 1); // 10^9 (1000000000)
+        long max = (long) Math.pow(10, length) - 1; // 10^10 - 1 (9999999999)
+
         do {
-            // Generate a UUID as the account number
-            accountNumber = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 8);
+            long randomNumber = min + ((long) (secureRandom.nextDouble() * (max - min)));
+            accountNumber = String.valueOf(randomNumber);
         } while (accountRepository.findByAccountNumber(accountNumber) != null);
 
         return accountNumber;

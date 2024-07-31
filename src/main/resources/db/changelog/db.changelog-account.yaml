@@ -52,7 +52,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: account_number
-                  value: 'ACC-123456'
+                  value: 'ad1t2345s6'
               - column:
                   name: balance
                   value: '1000.00'
@@ -67,7 +67,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: account_number
-                  value: 'ACC-789012'
+                  value: 'op1t2645s6'
               - column:
                   name: balance
                   value: '500.00'
@@ -82,7 +82,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: account_number
-                  value: 'ACC-78902424'
+                  value: 'xd1y2345s0'
               - column:
                   name: balance
                   value: '50000.00'

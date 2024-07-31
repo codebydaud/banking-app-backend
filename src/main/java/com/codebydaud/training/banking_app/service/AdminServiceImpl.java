@@ -94,7 +94,7 @@ public class AdminServiceImpl implements AdminService {
         }
         ValidationUtil.validateUserDetails(updatedUser);
         updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-        userMapper.updateUser(existingUser, updatedUser);
+        userMapper.updateUser(updatedUser, existingUser);
     }
 
     public void deleteAccount(String accountNumber) {
