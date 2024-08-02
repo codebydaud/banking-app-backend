@@ -65,7 +65,7 @@ databaseChangeLog:
                   value: admin@gmail.com
               - column:
                   name: country_code
-                  value: '+92'
+                  value: 'PK'
               - column:
                   name: phone_number
                   value: '3497777777'
@@ -74,7 +74,7 @@ databaseChangeLog:
                   value: House No, 15
               - column:
                   name: password
-                  value: '$2a$10$.ptbRKSszrCfPMJkfXMWNOloe62.b3XCTxIVPmXV8ksR9OChFi3Du'
+                  value: '$2a$12$cCrMX1q3tIEU9aSVrHcYk.kz8u2liWO4HJMN0rlhqoe3tF0Ze6bgO'
               - column:
                   name: role
                   value: admin
@@ -89,16 +89,16 @@ databaseChangeLog:
                   value: daudrizvi@gmail.com
               - column:
                   name: country_code
-                  value: '+92'
+                  value: 'PK'
               - column:
                   name: phone_number
-                  value: '3496016604'
+                  value: '3497777778'
               - column:
                   name: address
                   value: House No, 30
               - column:
                   name: password
-                  value: '$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+                  value: '$2a$12$cCrMX1q3tIEU9aSVrHcYk.kz8u2liWO4HJMN0rlhqoe3tF0Ze6bgO'
               - column:
                   name: role
                   value: customer
@@ -113,16 +113,16 @@ databaseChangeLog:
                   value: ahmad@gmail.com
               - column:
                   name: country_code
-                  value: '+92'
+                  value: 'PK'
               - column:
                   name: phone_number
-                  value: '123456789'
+                  value: '3497777779'
               - column:
                   name: address
                   value: House No, 31
               - column:
                   name: password
-                  value: '$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+                  value: '$2a$12$cCrMX1q3tIEU9aSVrHcYk.kz8u2liWO4HJMN0rlhqoe3tF0Ze6bgO'
               - column:
                   name: role
                   value: customer
@@ -137,16 +137,16 @@ databaseChangeLog:
                   value: ali@gmail.com
               - column:
                   name: country_code
-                  value: '+92'
+                  value: 'PK'
               - column:
                   name: phone_number
-                  value: '3496666666'
+                  value: '3497777775'
               - column:
                   name: address
                   value: House No, 32
               - column:
                   name: password
-                  value: '$2a$12$diheMtyeAeA8iBeVx.prq.jeVWuRWrtmlnAwcS7bbLbEJp/EtulPW'
+                  value: '$2a$12$cCrMX1q3tIEU9aSVrHcYk.kz8u2liWO4HJMN0rlhqoe3tF0Ze6bgO'
               - column:
                   name: role
                   value: customer

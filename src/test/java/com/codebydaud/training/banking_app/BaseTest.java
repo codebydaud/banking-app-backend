@@ -170,7 +170,7 @@ public abstract class BaseTest {
     }
 
     protected String LoginAdmin() throws Exception {
-        val loginRequest = new LoginRequest("admin@gmail.com", "admin123");
+        val loginRequest = new LoginRequest("admin@gmail.com", "Admin@123");
 
         val loginResult = mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/admin/login")

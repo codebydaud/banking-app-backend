@@ -13,8 +13,8 @@ public class Application {
         System.setProperty("DB_PROD_USERNAME", dotenv.get("DB_PROD_USERNAME"));
         System.setProperty("DB_PROD_PASSWORD", dotenv.get("DB_PROD_PASSWORD"));
 
-        System.setProperty("DB_TEST_USERNAME", dotenv.get("DB_TEST_USERNAME"));
-        System.setProperty("DB_TEST_PASSWORD", dotenv.get("DB_TEST_PASSWORD"));
+        System.setProperty("JWT_SECRET", dotenv.get("JWT_SECRET"));
+        System.setProperty("JWT_EXPIRATION", dotenv.get("JWT_EXPIRATION"));
 
         SpringApplication.run(Application.class, args);
     }

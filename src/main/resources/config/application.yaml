@@ -10,7 +10,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
   h2:
     console:
       enabled: false
@@ -19,8 +19,8 @@ spring:
 
 
 jwt:
-  secret: '4433rjkl2241@!#23l32j14l3kj12l5j14kl2'
-  expiration: 86400000  # Token expiration time in milliseconds (e.g., 24 hours)
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}  # Token expiration time in milliseconds (e.g., 24 hours)
 
 api:
   security:
