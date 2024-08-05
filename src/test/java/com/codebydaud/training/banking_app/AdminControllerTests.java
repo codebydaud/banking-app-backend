@@ -143,47 +143,29 @@ public class AdminControllerTests extends BaseTest {
                 .andExpect(MockMvcResultMatchers.status().isInternalServerError());
     }
 
-//    @Test
-//    public void test_update_user_with_valid_details() throws Exception {
-//        String token = LoginAdmin();
-//        val userDetails = createAndLoginUser();
-//        val updatedUser = createUser();
-//        val accountNumber = userDetails.get("accountNumber");
-//        mockMvc.perform(MockMvcRequestBuilders
-//                        .put(String.format("/api/admin/account/%s", accountNumber))
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .header("Authorization", "Bearer " + token)
-//                        .content(JsonUtil.toJson(updatedUser)))
-//                .andExpect(MockMvcResultMatchers.status().isOk())
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.name")
-//                        .value(updatedUser.getName()))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.email")
-//                        .value(updatedUser.getEmail()))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.address")
-//                        .value(updatedUser.getAddress()))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$.phoneNumber")
-//                        .value(updatedUser.getPhoneNumber()));
-//    }
-
     @Test
-    public void test_update_user_with_invalid_name() throws Exception {
+    public void test_update_user_with_valid_details() throws Exception {
         String token = LoginAdmin();
         val userDetails = createAndLoginUser();
         val updatedUser = createUser();
-        updatedUser.setName("");
         val accountNumber = userDetails.get("accountNumber");
         mockMvc.perform(MockMvcRequestBuilders
                         .put(String.format("/api/admin/account/%s", accountNumber))
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token)
                         .content(JsonUtil.toJson(updatedUser)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_NAME_EMPTY_ERROR.getMessage()));
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email")
+                        .value(updatedUser.getEmail()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.address")
+                        .value(updatedUser.getAddress()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.phoneNumber")
+                        .value(updatedUser.getPhoneNumber()));
     }
 
+
     @Test
-    public void test_update_user_with_invalid_address() throws Exception {
+    public void test_update_user_with_empty_address() throws Exception {
         String token = LoginAdmin();
         val userDetails = createAndLoginUser();
         val updatedUser = createUser();
@@ -195,13 +177,13 @@ public class AdminControllerTests extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token)
                         .content(JsonUtil.toJson(updatedUser)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_ADDRESS_EMPTY_ERROR.getMessage()));
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.address")
+                        .value(userDetails.get("address")));
     }
 
     @Test
-    public void test_update_user_with_invalid_email() throws Exception {
+    public void test_update_user_with_empty_email() throws Exception {
         String token = LoginAdmin();
         val userDetails = createAndLoginUser();
         val updatedUser = createUser();
@@ -213,13 +195,13 @@ public class AdminControllerTests extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token)
                         .content(JsonUtil.toJson(updatedUser)))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_EMAIL_EMPTY_ERROR.getMessage()));
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email")
+                        .value(userDetails.get("email")));
     }
 
     @Test
-    public void test_update_user_with_invalid_phone_number() throws Exception {
+    public void test_update_user_with_empty_phone_number() throws Exception {
         String token = LoginAdmin();
         val userDetails = createAndLoginUser();
         val updatedUser = createUser();
@@ -231,9 +213,45 @@ public class AdminControllerTests extends BaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", "Bearer " + token)
                         .content(JsonUtil.toJson(updatedUser)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.phoneNumber")
+                        .value(userDetails.get("phoneNumber")));
+    }
+
+    @Test
+    public void test_update_user_with_invalid_email() throws Exception {
+        String token = LoginAdmin();
+        val userDetails = createAndLoginUser();
+        val updatedUser = createUser();
+        updatedUser.setEmail("asas.321.gmail.com");
+        val accountNumber = userDetails.get("accountNumber");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(String.format("/api/admin/account/%s", accountNumber))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
+                        .content(JsonUtil.toJson(updatedUser)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(MockMvcResultMatchers.content()
-                        .string(ApiMessages.USER_PHONE_NUMBER_EMPTY_ERROR.getMessage()));
+                        .string(ApiMessages.USER_EMAIL_ADDRESS_INVALID_ERROR.getMessage()));
+    }
+
+    @Test
+    public void test_update_user_with_invalid_phone_number() throws Exception {
+        String token = LoginAdmin();
+        val userDetails = createAndLoginUser();
+        val updatedUser = createUser();
+        updatedUser.setPhoneNumber("3234144");
+        val accountNumber = userDetails.get("accountNumber");
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .put(String.format("/api/admin/account/%s", accountNumber))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
+                        .content(JsonUtil.toJson(updatedUser)))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.content()
+                        .string(ApiMessages.USER_PHONE_NUMBER_INVALID_ERROR.getMessage()));
     }
 
 

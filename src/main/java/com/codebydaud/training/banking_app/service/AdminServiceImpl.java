@@ -56,7 +56,7 @@ public class AdminServiceImpl implements AdminService {
         return accounts.stream()
                 .map(account -> {
                     Optional<User> user = userRepository.findByAccountAccountNumber(account.getAccountNumber());
-                    String accountHolderName = user.isPresent()?user.get().getName():"Unknowns";
+                    String accountHolderName = user.isPresent() ? user.get().getName() : "Unknowns";
                     return new AccountResponse(account, accountHolderName);
                 })
                 .collect(Collectors.toList());
@@ -88,13 +88,43 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private void updateUserDetails(User existingUser, User updatedUser) {
-        if(updatedUser.getPassword()==null)
-        {
-            updatedUser.setPassword(existingUser.getPassword());
+//        if(updatedUser.getPassword()==null)
+//        {
+//            updatedUser.setPassword(existingUser.getPassword());
+//        }
+//        ValidationUtil.validateUserDetails(updatedUser);
+//        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+//        userMapper.updateUser(updatedUser, existingUser);
+
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            ValidationUtil.validatePassword(updatedUser.getPassword());
+
+
         }
-        ValidationUtil.validateUserDetails(updatedUser);
-        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
-        userMapper.updateUser(updatedUser, existingUser);
+        if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty() && !ValidationUtil.isValidEmail(updatedUser.getEmail())) {
+
+            throw new UserInvalidException(ApiMessages.USER_EMAIL_ADDRESS_INVALID_ERROR.getMessage());
+
+        }
+        if (updatedUser.getPhoneNumber() != null && !updatedUser.getPhoneNumber().isEmpty() && !ValidationUtil.isValidPhoneNumber(updatedUser.getPhoneNumber(), "PK")) {
+
+            throw new UserInvalidException(ApiMessages.USER_PHONE_NUMBER_INVALID_ERROR.getMessage());
+
+        }
+        if (updatedUser.getAddress() != null && !updatedUser.getAddress().isEmpty()) {
+            existingUser.setAddress(updatedUser.getAddress());
+        }
+
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+            existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+        }
+        if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty()) {
+            existingUser.setEmail(updatedUser.getEmail());
+        }
+        if (updatedUser.getPhoneNumber() != null && !updatedUser.getPhoneNumber().isEmpty()) {
+            existingUser.setPhoneNumber(updatedUser.getPhoneNumber());
+        }
+
     }
 
     public void deleteAccount(String accountNumber) {
