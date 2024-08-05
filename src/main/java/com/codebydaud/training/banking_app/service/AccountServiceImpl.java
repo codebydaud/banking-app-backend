@@ -23,6 +23,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
+    SecureRandom secureRandom = new SecureRandom();
     final private AccountRepository accountRepository;
     final private TransactionRepository transactionRepository;
 
@@ -40,7 +41,6 @@ public class AccountServiceImpl implements AccountService {
 
     private String generateUniqueAccountNumber() {
         String accountNumber;
-        SecureRandom secureRandom = new SecureRandom();
         int length = 10; // Desired length of the account number
         long min = (long) Math.pow(10, length - 1); // 10^9 (1000000000)
         long max = (long) Math.pow(10, length) - 1; // 10^10 - 1 (9999999999)
