@@ -2,14 +2,11 @@ package com.codebydaud.training.banking_app.dto;
 
 
 import com.codebydaud.training.banking_app.entity.Transaction;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.val;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionDTO {

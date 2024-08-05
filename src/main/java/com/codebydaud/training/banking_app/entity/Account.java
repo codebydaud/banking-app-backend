@@ -15,10 +15,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity (name = "accounts")
-@Data
+@Getter
+@Setter
 public class Account {
 
     @Id

@@ -1,11 +1,11 @@
 package com.codebydaud.training.banking_app.dto;
 
 import com.codebydaud.training.banking_app.entity.User;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-@Data
+@Getter
 public class UserResponse {
 
     private String name;
