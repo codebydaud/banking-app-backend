@@ -45,7 +45,6 @@ public class User {
     @NotEmpty
     private String role;
 
-    // Establishing a one-to-one relationship with the account
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Account account;
 

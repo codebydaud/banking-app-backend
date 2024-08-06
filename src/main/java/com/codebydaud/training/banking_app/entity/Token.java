@@ -35,7 +35,6 @@ public class Token {
     @NotNull
     private Date expiryAt;
 
-//    @NotNull
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;

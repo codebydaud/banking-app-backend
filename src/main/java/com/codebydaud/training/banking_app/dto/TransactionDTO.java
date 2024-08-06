@@ -1,6 +1,5 @@
 package com.codebydaud.training.banking_app.dto;
 
-
 import com.codebydaud.training.banking_app.entity.Transaction;
 import lombok.*;
 
@@ -17,6 +16,8 @@ public class TransactionDTO {
     private Date transactionDate;
     private String sourceAccountNumber;
     private String targetAccountNumber;
+    private String sourceUserName;  // Added field for sender's name
+    private String targetUserName;  // Added field for receiver's name
     private String description;
 
     public TransactionDTO(Transaction transaction) {
@@ -25,15 +26,14 @@ public class TransactionDTO {
         this.transactionType = transaction.getTransactionType();
         this.transactionDate = transaction.getTransactionDate();
         this.sourceAccountNumber = transaction.getSourceAccount().getAccountNumber();
-        this.description=transaction.getDescription();
+        this.description = transaction.getDescription();
 
         val targetAccount = transaction.getTargetAccount();
-        var targetAccountNumber = "N/A";
-        if (targetAccount != null) {
-            targetAccountNumber = targetAccount.getAccountNumber();
-        }
+        this.targetAccountNumber = (targetAccount != null) ? targetAccount.getAccountNumber() : "N/A";
 
-        this.targetAccountNumber = targetAccountNumber;
+        this.sourceUserName = (transaction.getSourceAccount().getUser() != null) ?
+                transaction.getSourceAccount().getUser().getName() : "Unknown";
+        this.targetUserName = (transaction.getTargetAccount() != null && transaction.getTargetAccount().getUser() != null) ?
+                transaction.getTargetAccount().getUser().getName() : "Unknown";
     }
-
 }
