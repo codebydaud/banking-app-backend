@@ -35,4 +35,12 @@ public class DashboardController {
         return ResponseEntity.ok(JsonUtil.toJson(accountResponse));
     }
 
+    @PreAuthorize("hasAuthority('customer')")
+    @GetMapping("/user/balance")
+    public ResponseEntity<String> getBalance() {
+        val accountNumber = LoggedinUser.getAccountNumber();
+        val balance = dashboardService.getAccountBalance(accountNumber);
+        return ResponseEntity.ok(JsonUtil.toJson(balance));
+    }
+
 }

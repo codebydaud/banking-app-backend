@@ -16,8 +16,8 @@ public class TransactionDTO {
     private Date transactionDate;
     private String sourceAccountNumber;
     private String targetAccountNumber;
-    private String sourceUserName;  // Added field for sender's name
-    private String targetUserName;  // Added field for receiver's name
+    private String sourceUserName;
+    private String targetUserName;
     private String description;
 
     public TransactionDTO(Transaction transaction) {

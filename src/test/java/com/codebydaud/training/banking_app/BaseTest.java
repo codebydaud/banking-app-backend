@@ -156,6 +156,8 @@ public abstract class BaseTest {
         val responseBody = loginResult.getResponse().getContentAsString();
         String token = JsonPath.read(responseBody, "$.token");
 
+
+
         val userDetails = new HashMap<String, String>();
         userDetails.put("name", user.getName());
         userDetails.put("email", user.getEmail());
@@ -164,6 +166,7 @@ public abstract class BaseTest {
         userDetails.put("address", user.getAddress());
         userDetails.put("accountNumber", accountNumber);
         userDetails.put("password", user.getPassword());
+        userDetails.put("balance",String.valueOf(userRepository.findByEmail(user.getEmail()).get().getAccount().getBalance()));
         userDetails.put("token", token);
 
         return userDetails;

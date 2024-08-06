@@ -65,6 +65,20 @@ public class DashboardControllerTests extends BaseTest {
     }
 
     @Test
+    public void test_get_user_balance_authorized() throws Exception {
+        createAndLoginUser();
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/api/user/balance")
+                        .header("Authorization","Bearer " + userDetails.get("token"))
+                        .with(SecurityMockMvcRequestPostProcessors.user(userDetails.get("accountNumber"))
+                                .authorities(new SimpleGrantedAuthority("customer"))))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.balance")
+                        .value(userDetails.get("balance")));
+    }
+
+    @Test
     public void test_get_user_details_unauthorized() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/user/profile"))
