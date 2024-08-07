@@ -9,7 +9,6 @@ import com.codebydaud.training.banking_app.entity.User;
 import com.codebydaud.training.banking_app.exception.InvalidTokenException;
 import com.codebydaud.training.banking_app.exception.NotFoundException;
 import com.codebydaud.training.banking_app.exception.UserInvalidException;
-import com.codebydaud.training.banking_app.mapper.UserMapper;
 import com.codebydaud.training.banking_app.repository.AccountRepository;
 import com.codebydaud.training.banking_app.repository.UserRepository;
 import com.codebydaud.training.banking_app.util.ApiMessages;
@@ -38,7 +37,6 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TransactionService transactionService;
-    private final UserMapper userMapper;
 
     @Override
     public ResponseEntity<String> login(LoginRequest loginRequest)
